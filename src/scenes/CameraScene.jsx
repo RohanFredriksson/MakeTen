@@ -4,58 +4,27 @@ import { Camera, useCameraDevices } from 'react-native-vision-camera';
 
 const CameraScene = ({navigation}) => {
 
-  const [cameraPermission, setCameraPermission] = useState("not-determined");
+  const devices = useCameraDevices('wide-angle-camera');
+  const device = devices.back;
 
-  const requestPermission = async () => {
+  const [permission, setPermission] = useState("not-determined");
+  const getStatus = async() => {
 
-    const permission = await Camera.requestCameraPermission();
-    if (permission !== "authorized" && permission !== "not-determined") {
+    // Get the camera permission status.
+    const p = await Camera.requestCameraPermission();
+    setPermission(p);
 
-      Alert.alert('Error', 'Access to the camera has been denied. To continue, please enable access in the Settings.', [
-        {
-          text: 'Settings',
-          onPress: () => requestPermissionInSettings()
-        },
-        {
-          text: 'Return', 
-          onPress: () => navigation.pop(),
-          style: 'cancel',
-        },
-      ]);
-
-    }
-
-    setCameraPermission(permission);
-  }
-
-  const requestPermissionInSettings = async () => {
-
-    await Linking.openSettings();
-    const permission = await Camera.getCameraPermissionStatus();
-    if (permission !== 'authorized') {
-      navigation.pop();
-    }
-
-    setCameraPermission(permission);
   }
 
   useEffect(() => {
-    requestPermission();
+    getStatus();
   }, []);
-
-  const devices = useCameraDevices('wide-angle-camera');
-  const device = devices.back;
 
   const renderCamera = () => {
 
     // Show a loading screen, whilst we prompt the user for camera permission.
-    if (cameraPermission !== "authorized") {
+    if (permission !== "authorized" || device == null) {
       return (<Text>Not Authorized</Text>);
-    }
-
-    // If the device has no usable camera, then we should alert the user and return to the home screen.
-    if (device == null) {
-      return (<Text>No camera device could be found on your device.</Text>)
     }
 
     return (
@@ -65,6 +34,7 @@ const CameraScene = ({navigation}) => {
         isActive={true}
       />
     )
+
   }
 
   return (
