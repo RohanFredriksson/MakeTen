@@ -5,13 +5,24 @@ import { Camera, useCameraDevices } from 'react-native-vision-camera';
 const CameraScene = ({navigation}) => {
 
   const [cameraPermission, setCameraPermission] = useState("not-determined");
-  const [error, setError] = useState("")
 
   const requestPermission = async () => {
 
     const permission = await Camera.requestCameraPermission();
-    if (permission !== "authorized") {
-      setError("Not allowed to access camera");
+    if (permission !== "authorized" && permission !== "not-determined") {
+
+      Alert.alert('Error', 'Access to the camera has been denied. To continue, please enable access in the Settings.', [
+        {
+          text: 'Settings',
+          onPress: () => requestPermissionInSettings()
+        },
+        {
+          text: 'Return', 
+          onPress: () => navigation.pop(),
+          style: 'cancel',
+        },
+      ]);
+
     }
 
     setCameraPermission(permission);
@@ -30,35 +41,17 @@ const CameraScene = ({navigation}) => {
 
   useEffect(() => {
     requestPermission();
-  });
+  }, []);
 
   const devices = useCameraDevices('wide-angle-camera');
   const device = devices.back;
 
   const renderCamera = () => {
 
-    // If the user denies access to the camera, request the user to change the option in the settings.
-    if (error) {
-
-      Alert.alert('Error', 'Access to the camera has been denied. To continue, please enable access in the Settings.', [
-        {
-          text: 'Settings',
-          onPress: () => requestPermissionInSettings()
-        },
-        {
-          text: 'Return', 
-          onPress: () => navigation.pop(),
-          style: 'cancel',
-        },
-      ]);
-      
-      return (<Text>Error: {error}</Text>);
-    }
-
     // Show a loading screen, whilst we prompt the user for camera permission.
-    if (cameraPermission === "not-determined") {
-      return (<Text>Not Determined</Text>);
-    }    
+    if (cameraPermission !== "authorized") {
+      return (<Text>Not Authorized</Text>);
+    }
 
     // If the device has no usable camera, then we should alert the user and return to the home screen.
     if (device == null) {
