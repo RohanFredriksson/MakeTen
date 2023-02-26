@@ -1,59 +1,84 @@
-import React, { useState } from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
-//import { Camera, CameraType } from 'expo-camera';
-
-// References
-//let camera;
+import React, { useState, useEffect } from 'react';
+import { Button, StyleSheet, Text, TouchableOpacity, View, Alert, Linking } from 'react-native';
+import { Camera, useCameraDevices } from 'react-native-vision-camera';
 
 const CameraScene = ({navigation}) => {
 
-  return (
-    <View style={styles.container}>
-      <Text style={{ textAlign: 'center' }}>We need your permission to show the camera</Text>
-      <Button onPress={requestPermission} title="grant permission" />
-    </View>
-  );
+  const [cameraPermission, setCameraPermission] = useState("not-determined");
+  const [error, setError] = useState("")
 
-  /*
+  const requestPermission = async () => {
 
-  const [type, setType] = useState(CameraType.back);
-  const [permission, requestPermission] = Camera.useCameraPermissions();
+    const permission = await Camera.requestCameraPermission();
+    if (permission !== "authorized") {
+      setError("Not allowed to access camera");
+    }
 
-  function toggleCameraType() {
-    setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
-  }
-  
-  async function takePhoto() {
-    const photo = await camera.takePictureAsync();
+    setCameraPermission(permission);
   }
 
-  if (!permission) {
-    // Camera permissions are still loading
-    return <View />;
+  const requestPermissionInSettings = async () => {
+
+    await Linking.openSettings();
+    const permission = await Camera.getCameraPermissionStatus();
+    if (permission !== 'authorized') {
+      navigation.pop();
+    }
+
+    setCameraPermission(permission);
   }
 
-  if (!permission.granted) {
-    // Camera permissions are not granted yet
+  useEffect(() => {
+    requestPermission();
+  });
+
+  const devices = useCameraDevices('wide-angle-camera');
+  const device = devices.back;
+
+  const renderCamera = () => {
+
+    // If the user denies access to the camera, request the user to change the option in the settings.
+    if (error) {
+
+      Alert.alert('Error', 'Access to the camera has been denied. To continue, please enable access in the Settings.', [
+        {
+          text: 'Settings',
+          onPress: () => requestPermissionInSettings()
+        },
+        {
+          text: 'Return', 
+          onPress: () => navigation.pop(),
+          style: 'cancel',
+        },
+      ]);
+      
+      return (<Text>Error: {error}</Text>);
+    }
+
+    // Show a loading screen, whilst we prompt the user for camera permission.
+    if (cameraPermission === "not-determined") {
+      return (<Text>Not Determined</Text>);
+    }    
+
+    // If the device has no usable camera, then we should alert the user and return to the home screen.
+    if (device == null) {
+      return (<Text>No camera device could be found on your device.</Text>)
+    }
+
     return (
-      <View style={styles.container}>
-        <Text style={{ textAlign: 'center' }}>We need your permission to show the camera</Text>
-        <Button onPress={requestPermission} title="grant permission" />
-      </View>
-    );
+      <Camera
+        style={styles.camera}
+        device={device}
+        isActive={true}
+      />
+    )
   }
 
   return (
     <View style={styles.container}>
-      <Camera style={styles.camera} type={type} ref={(r) => {camera = r}}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={takePhoto}>
-            <Text style={styles.text}>Take Photo</Text>
-          </TouchableOpacity>
-        </View>
-      </Camera>
+      {renderCamera()}
     </View>
-  );
-  */
+  )
 
 }
 

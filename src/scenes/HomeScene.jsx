@@ -12,6 +12,7 @@ const HomeScene = ({navigation}) => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <NumberField callback={successCallback}/>
+        <Button title="Camera" onPress={() => navigation.navigate('Camera')}/>
       </View>
     </TouchableWithoutFeedback>
   );

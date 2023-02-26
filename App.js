@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { HomeScene } from './src/scenes/HomeScene'
 import { AnswerScene } from './src/scenes/AnswerScene'
+import { CameraScene } from './src/scenes/CameraScene'
 
 export default function App() {
 
@@ -20,6 +21,11 @@ export default function App() {
         <Stack.Screen 
           name="Answer" 
           component={AnswerScene}
+          options={{ animation: 'fade' }}
+        />
+        <Stack.Screen 
+          name="Camera" 
+          component={CameraScene}
           options={{ animation: 'fade' }}
         />
       </Stack.Navigator>
