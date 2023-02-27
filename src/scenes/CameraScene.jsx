@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity, View, Alert, Linking } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Camera, useCameraDevices } from 'react-native-vision-camera';
+import TextRecognition from 'react-native-text-recognition';
+import { compute } from './../modules/compute'
 
 const CameraScene = ({navigation}) => {
 
+  const camera = useRef(null);
   const devices = useCameraDevices('wide-angle-camera');
   const device = devices.back;
 
@@ -20,6 +23,32 @@ const CameraScene = ({navigation}) => {
     getStatus();
   }, []);
 
+  const takePhoto = async () => {
+    
+    // Take a photo and perform OCR on it.
+    const photo = await camera.current.takePhoto();
+    const text = "" + (await TextRecognition.recognize(photo.path));
+
+    // Determine if there is a 4 digit code in the photo.
+    var code = null;
+    for (i = 0; i < text.length; i++) {
+
+      const current = text.substring(i, i+4).replace(/[^0-9]/g, '');
+      if (current.length == 4) {
+        code = current;
+        break;
+      }
+
+    }
+    
+    if (code == null) {return;}
+
+    // Find the answer if it exists.
+    const answer = compute(code, 10);
+    navigation.navigate('Answer', {answer: answer});
+
+  }
+
   const renderCamera = () => {
 
     // Show a loading screen, whilst we prompt the user for camera permission.
@@ -28,11 +57,13 @@ const CameraScene = ({navigation}) => {
     }
 
     return (
-      <Camera
-        style={styles.camera}
-        device={device}
-        isActive={true}
-      />
+      <Camera style={styles.camera} device={device} ref={camera} isActive={true} photo={true} enableZoomGesture={true}>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.button} onPress={takePhoto}>
+            <Text style={styles.text}>Take Photo</Text>
+          </TouchableOpacity>
+        </View>
+      </Camera>
     )
 
   }
