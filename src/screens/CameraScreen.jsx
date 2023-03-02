@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Camera, useCameraDevices } from 'react-native-vision-camera';
 import TextRecognition from 'react-native-text-recognition';
-import { compute } from './../modules/compute'
+import { compute } from '../modules/compute'
 
-const CameraScene = ({navigation}) => {
+const CameraScreen = ({navigation}) => {
 
   const camera = useRef(null);
   const devices = useCameraDevices('wide-angle-camera');
@@ -53,7 +53,7 @@ const CameraScene = ({navigation}) => {
 
     // Show a loading screen, whilst we prompt the user for camera permission.
     if (permission !== "authorized" || device == null) {
-      return (<Text>Not Authorized</Text>);
+      return (<View/>);
     }
 
     return (
@@ -102,4 +102,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export {CameraScene};
+export {CameraScreen};

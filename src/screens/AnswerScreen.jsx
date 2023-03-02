@@ -21,7 +21,7 @@ function getContainerStyle(success) {
 
 }
 
-const AnswerScene = ({navigation, route}) => {
+const AnswerScreen = ({navigation, route}) => {
 
   const answer = route.params.answer;
   const success = answer != null;
@@ -43,4 +43,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export {AnswerScene};
+export {AnswerScreen};
