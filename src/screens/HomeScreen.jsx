@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Camera, useCameraDevices } from 'react-native-vision-camera';
+import React, { useRef } from 'react';
 import { View, StyleSheet, Button, Keyboard, TouchableWithoutFeedback, TouchableOpacity, Alert, Linking, Dimensions, Text, Animated } from 'react-native';
+import { Camera, useCameraDevices } from 'react-native-vision-camera';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
+import { useFocusEffect } from '@react-navigation/native';
 import { NumberField } from '../components/NumberField';
-import { compute } from '../modules/compute'
 
 const HomeScreen = ({navigation}) => {
 
@@ -64,6 +64,7 @@ const HomeScreen = ({navigation}) => {
           else {
             // If we have sufficient permission, go to the camera.
             navigation.navigate('Camera');
+            setTimeout(() => {translateX.setValue(0);}, 500);
           }
           
         }
