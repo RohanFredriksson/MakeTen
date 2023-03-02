@@ -1,17 +1,16 @@
 import React, { useRef } from 'react';
-import { View, StyleSheet, Button, Keyboard, TouchableWithoutFeedback, TouchableOpacity, Alert, Linking, Dimensions, Text, Animated } from 'react-native';
+import { StyleSheet, Keyboard, Alert, Linking, Dimensions, Animated } from 'react-native';
 import { Camera, useCameraDevices } from 'react-native-vision-camera';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
-import { useFocusEffect } from '@react-navigation/native';
+import { ScreenCornerRadius } from "react-native-screen-corner-radius"
 import { NumberField } from '../components/NumberField';
 
 const HomeScreen = ({navigation}) => {
 
-  const devices = useCameraDevices('wide-angle-camera');
-  const device = devices.back;
-
   const width = Dimensions.get('window').width;
   const height = Dimensions.get('window').height;
+  const devices = useCameraDevices('wide-angle-camera');
+  const device = devices.back;
   const translateX = useRef(new Animated.Value(0)).current;
 
   const onGestureEvent = (event) => {
@@ -88,10 +87,8 @@ const HomeScreen = ({navigation}) => {
       onGestureEvent={(event) => {onGestureEvent(event);}}
       onHandlerStateChange={(event) => {onHandlerStateChange(event);}}
     >
-      <Animated.View style={{ transform: [{ translateX }], width: width, height: height }}>
-        <View style={styles.container}>
-          <NumberField callback={(answer) => {navigation.navigate('Answer', {answer: answer});}}/>
-        </View>
+      <Animated.View style={[styles.container, { transform: [{ translateX }], width: width, height: height, borderRadius: ScreenCornerRadius, backgroundColor: '#F5F5F7' }]}>
+        <NumberField callback={(answer) => {navigation.navigate('Answer', {answer: answer});}}/>
       </Animated.View>
     </PanGestureHandler>
   );
@@ -105,10 +102,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#F5F5F7'
-  },
-  text: {
-    fontSize: 24,
-    fontWeight: 'bold'
-  },
+  }
 });

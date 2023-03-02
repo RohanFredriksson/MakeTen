@@ -1,24 +1,9 @@
 import React from 'react';
 import { View, StyleSheet, Text, Button } from 'react-native';
 
-function getContainerStyle(success) {
-
-  if (success) {
-    return {
-      flex: 1,
-      backgroundColor: '#4cda64',
-      alignItems: 'center',
-      justifyContent: 'center',
-    }
-  }
-
-  return {
-    flex: 1,
-    backgroundColor: '#fe0000',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }
-
+function getColor(success) {
+  if (success) {return {backgroundColor: '#4cda64'}};
+  return {backgroundColor: '#fe0000'};
 }
 
 const AnswerScreen = ({navigation, route}) => {
@@ -27,7 +12,7 @@ const AnswerScreen = ({navigation, route}) => {
   const success = answer != null;
 
   return (
-    <View style={getContainerStyle(success)}>
+    <View style={[styles.container, getColor(success)]}>
       <Text style={styles.text}>{answer}</Text>
       <Button title="Return" onPress={() => navigation.pop()}/>
     </View>
@@ -36,6 +21,11 @@ const AnswerScreen = ({navigation, route}) => {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   text: {
     color: '#fff',
     fontSize: 36,

@@ -6,9 +6,9 @@ import { compute } from '../modules/compute'
 
 const CameraScreen = ({navigation}) => {
 
-  const camera = useRef(null);
   const devices = useCameraDevices('wide-angle-camera');
   const device = devices.back;
+  const camera = useRef(null);
 
   const [permission, setPermission] = useState("not-determined");
   const getStatus = async() => {
@@ -79,6 +79,7 @@ const CameraScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
     justifyContent: 'center',
   },
   camera: {
