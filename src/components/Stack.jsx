@@ -43,26 +43,34 @@ export default class Stack extends React.Component {
 
       const left = dictionary[current.props.left];
       if (left.props.zIndex < current.props.zIndex) {
+
         this.state.bottom = left;
         this.state.left = null;
         this.state.right = null;
+
       } else {
+
         this.state.bottom = null;
         this.state.left = left;
         this.state.right = null;
+
       }
 
     } else {
 
       const right = dictionary[current.props.right];
       if (right.props.zIndex < current.props.zIndex) {
+
         this.state.bottom = right;
         this.state.left = null;
         this.state.right = null;
+
       } else {
+
         this.state.bottom = null;
         this.state.left = null;
         this.state.right = right;
+        
       }
 
     }
@@ -88,10 +96,17 @@ export default class Stack extends React.Component {
           useNativeDriver: false,
           easing: Easing.linear,
         }).start(() => {
+
           if (this.state.left != null) {this.state.current = this.state.left;} 
           else {this.state.current = this.state.bottom;}
+
+          this.state.left = null;
+          this.state.right = null;
+          this.state.bottom = null;
+
           this.state.translate.setValue(0);
           this.forceUpdate();
+
         });
         
         return;
@@ -106,10 +121,17 @@ export default class Stack extends React.Component {
           useNativeDriver: false,
           easing: Easing.linear,
         }).start(() => {
+
           if (this.state.right != null) {this.state.current = this.state.right;} 
           else {this.state.current = this.state.bottom;}
+
+          this.state.left = null;
+          this.state.right = null;
+          this.state.bottom = null;
+
           this.state.translate.setValue(0);
           this.forceUpdate();
+
         });
 
         return;
