@@ -10,19 +10,19 @@ const TestScreen = ({navigation}) => {
   return (
     <Stack>
       
-      <Screen id='b' left='a' right='c'>
+      <Screen id='b' zIndex={1} left='a' right='c'>
         <View style={[styles.container, {backgroundColor: 'red'}]}>
           <NumberField callback={(answer) => {console.log(answer);}}/>
         </View>
       </Screen>
 
-      <Screen id='a' right='b'>
+      <Screen id='a' zIndex={0} right='b'>
         <View style={[styles.container, {backgroundColor: 'blue'}]}>
         <Text style={styles.text}>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</Text>
         </View>
       </Screen>
 
-      <Screen id='c' left='b'>
+      <Screen id='c' zIndex={0} left='b'>
         <View style={[styles.container, {backgroundColor: 'green'}]}>
           <Text style={styles.text}>cccccccccccccccccccccccccccccccccccccccccccc</Text>
         </View>
