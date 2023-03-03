@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, Dimensions } from 'react-native';
 import { Camera, useCameraDevices } from 'react-native-vision-camera';
 import TextRecognition from 'react-native-text-recognition';
 import { compute } from '../modules/compute'
 
 const CameraScreen = ({navigation}) => {
 
+  const width = Dimensions.get('window').width;
+  const height = Dimensions.get('window').height;
   const devices = useCameraDevices('wide-angle-camera');
   const device = devices.back;
   const camera = useRef(null);
@@ -57,7 +59,7 @@ const CameraScreen = ({navigation}) => {
     }
 
     return (
-      <Camera style={styles.camera} device={device} ref={camera} isActive={true} photo={true} enableZoomGesture={true}>
+      <Camera style={[styles.camera, {width: width, height: height}]} device={device} ref={camera} isActive={true} photo={true} enableZoomGesture={true}>
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button} onPress={takePhoto}>
             <Text style={styles.text}>Take Photo</Text>
