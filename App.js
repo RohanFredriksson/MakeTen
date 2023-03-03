@@ -1,8 +1,6 @@
-import React, { useState, useRef} from 'react';
-import { View, Text, StyleSheet, Animated, Dimensions } from 'react-native';
-import { PanGestureHandler, State } from 'react-native-gesture-handler';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator, StackViewTransitionConfigs } from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import { HomeScreen } from './src/screens/HomeScreen'
 import { AnswerScreen } from './src/screens/AnswerScreen'
@@ -32,15 +30,3 @@ export default function App() {
   );
 
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    fontSize: 24,
-    fontWeight: 'bold'
-  },
-});
