@@ -1,28 +1,37 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
+import { ScreenCornerRadius } from "react-native-screen-corner-radius"
+
 import { Screen } from '../components/Screen';
 import { Stack } from '../components/Stack';
-
 import { NumberField } from '../components/NumberField';
+
+const TestComponent = (props) => {
+
+  return (
+    <View style={[styles.container, {backgroundColor: 'blue'}]}>
+      <Text style={styles.text}>{(props.active ? "ACTIVE" : "INACTIVE")}</Text>
+    </View>
+  )
+
+}
 
 const TestScreen = ({navigation}) => {
 
   return (
     <Stack>
+
+      <Screen id='camera' zIndex={0} right='code'>
+        <TestComponent/>
+      </Screen>
       
-      <Screen id='b' zIndex={1} left='a' right='c'>
-        <View style={[styles.container, {backgroundColor: 'red'}]}>
-          <NumberField callback={(answer) => {console.log(answer);}}/>
+      <Screen id='code' zIndex={1} left='camera' right='settings'>
+        <View style={[styles.container, {backgroundColor: '#F5F5F7', borderRadius: ScreenCornerRadius}]}>
+          <NumberField callback={(answer) => {navigation.navigate('Answer', {answer: answer});}}/>
         </View>
       </Screen>
 
-      <Screen id='a' zIndex={0} right='b'>
-        <View style={[styles.container, {backgroundColor: 'blue'}]}>
-        <Text style={styles.text}>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</Text>
-        </View>
-      </Screen>
-
-      <Screen id='c' zIndex={0} left='b'>
+      <Screen id='settings' zIndex={0} left='code'>
         <View style={[styles.container, {backgroundColor: 'green'}]}>
           <Text style={styles.text}>cccccccccccccccccccccccccccccccccccccccccccc</Text>
         </View>

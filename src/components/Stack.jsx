@@ -8,7 +8,6 @@ export default class Stack extends React.Component {
 
     super(props);
     this.state = {
-      id: null,
       current: null, 
       bottom: null,
       left: null,
@@ -16,13 +15,13 @@ export default class Stack extends React.Component {
       dictionary: {}, 
       translate: new Animated.Value(0)
     }
-    
-    if (this.state.current == null && this.props.children.length > 0) {
-      this.state.current = this.props.children[0];
-      this.state.id = this.state.current.props.id;
+
+    const children = React.Children.toArray(this.props.children);
+    if (this.state.current == null && children.length > 0) {
+      this.state.current = children[0];
     }
     
-    this.props.children.forEach((child) => {
+    children.forEach((child) => {
       this.state.dictionary[child.props.id] = child;
     });
 
@@ -89,17 +88,13 @@ export default class Stack extends React.Component {
           useNativeDriver: false,
           easing: Easing.linear,
         }).start(() => {
-          if (this.state.left != null) {
-            this.state.current = this.state.left;
-            this.state.id = this.state.current.props.id;
-          } else {
-            this.state.current = this.state.bottom;
-            this.state.id = this.state.current.props.id;
-          }
+          if (this.state.left != null) {this.state.current = this.state.left;} 
+          else {this.state.current = this.state.bottom;}
+          this.state.translate.setValue(0);
+          this.forceUpdate();
         });
-
-        return;
         
+        return;
       } 
 
       success = event.nativeEvent.translationX < -Dimensions.get('window').width / 3 && ('right' in this.state.current.props);
@@ -111,13 +106,10 @@ export default class Stack extends React.Component {
           useNativeDriver: false,
           easing: Easing.linear,
         }).start(() => {
-          if (this.state.right != null) {
-            this.state.current = this.state.right;
-            this.state.id = this.state.current.props.id;
-          } else {
-            this.state.current = this.state.bottom;
-            this.state.id = this.state.current.props.id;
-          }
+          if (this.state.right != null) {this.state.current = this.state.right;} 
+          else {this.state.current = this.state.bottom;}
+          this.state.translate.setValue(0);
+          this.forceUpdate();
         });
 
         return;
@@ -137,6 +129,11 @@ export default class Stack extends React.Component {
 
   render() {
 
+    const left = (this.state.left != null ? React.cloneElement(this.state.left, {active: false}) : null);
+    const right = (this.state.right != null ? React.cloneElement(this.state.right, {active: false}) : null);
+    const bottom = (this.state.bottom != null ? React.cloneElement(this.state.bottom, {active: false}) : null);
+    const current = (this.state.current != null ? React.cloneElement(this.state.current, {active: true}) : null); 
+
     if (this.state.left != null || this.state.right != null) {
 
       return (
@@ -145,10 +142,10 @@ export default class Stack extends React.Component {
           onHandlerStateChange={(event) => {if (this.state.current != null) {this.onHandlerStateChange(event);}}}
         >
           <View>
-            <Animated.View style={{position: 'absolute', zIndex: 2, elevation: 2, transform: [{ translateX: this.state.translate }], left: -Dimensions.get('window').width}}>{this.state.left}</Animated.View>
-            <Animated.View style={{position: 'absolute', zIndex: 2, elevation: 2, transform: [{ translateX: this.state.translate }], left: Dimensions.get('window').width}}>{this.state.right}</Animated.View>
-            <Animated.View style={{position: 'absolute', zIndex: 1, elevation: 1}}>{this.state.current}</Animated.View>
-            <View style={{position: 'absolute', zIndex: 0, elevation: 0}}>{this.state.bottom}</View>
+            <Animated.View style={{position: 'absolute', zIndex: 2, elevation: 2, transform: [{ translateX: this.state.translate }], left: -Dimensions.get('window').width}}>{left}</Animated.View>
+            <Animated.View style={{position: 'absolute', zIndex: 2, elevation: 2, transform: [{ translateX: this.state.translate }], left: Dimensions.get('window').width}}>{right}</Animated.View>
+            <Animated.View style={{position: 'absolute', zIndex: 1, elevation: 1}}>{current}</Animated.View>
+            <View style={{position: 'absolute', zIndex: 0, elevation: 0}}>{bottom}</View>
           </View>
         </PanGestureHandler>
       );
@@ -163,10 +160,10 @@ export default class Stack extends React.Component {
           onHandlerStateChange={(event) => {if (this.state.current != null) {this.onHandlerStateChange(event);}}}
         >
           <View>
-            <Animated.View style={{position: 'absolute', zIndex: 2, elevation: 2, transform: [{ translateX: this.state.translate }], left: -Dimensions.get('window').width}}>{this.state.left}</Animated.View>
-            <Animated.View style={{position: 'absolute', zIndex: 2, elevation: 2, transform: [{ translateX: this.state.translate }], left: Dimensions.get('window').width}}>{this.state.right}</Animated.View>
-            <Animated.View style={{position: 'absolute', zIndex: 1, elevation: 1, transform: [{ translateX: this.state.translate }]}}>{this.state.current}</Animated.View>
-            <View style={{position: 'absolute', zIndex: 0, elevation: 0}}>{this.state.bottom}</View>
+            <Animated.View style={{position: 'absolute', zIndex: 2, elevation: 2, transform: [{ translateX: this.state.translate }], left: -Dimensions.get('window').width}}>{left}</Animated.View>
+            <Animated.View style={{position: 'absolute', zIndex: 2, elevation: 2, transform: [{ translateX: this.state.translate }], left: Dimensions.get('window').width}}>{right}</Animated.View>
+            <Animated.View style={{position: 'absolute', zIndex: 1, elevation: 1, transform: [{ translateX: this.state.translate }]}}>{current}</Animated.View>
+            <View style={{position: 'absolute', zIndex: 0, elevation: 0}}>{bottom}</View>
           </View>
         </PanGestureHandler>
       );

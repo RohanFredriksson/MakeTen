@@ -10,6 +10,11 @@ export default class Screen extends React.Component {
 
   render() {
 
+    const children = React.Children.toArray(this.props.children).map((child) => {
+      if ('active' in this.props) {return React.cloneElement(child, {active: this.props.active});}
+      return React.cloneElement(child, {active: false});
+    });
+
     return (
       <View 
         style={{
@@ -18,7 +23,7 @@ export default class Screen extends React.Component {
           borderRadius: ScreenCornerRadius,
         }}
       >
-        {this.props.children}
+        {children}
       </View>
     );
 
