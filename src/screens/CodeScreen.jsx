@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { ScreenCornerRadius } from "react-native-screen-corner-radius"
 import { NumberField } from '../components/NumberField';
 

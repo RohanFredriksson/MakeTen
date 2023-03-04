@@ -84,7 +84,7 @@ export default class Stack extends React.Component {
   }
   
   onHandlerStateChange = async (event) => {
-  
+
     // If the user ends the gesture, determine if we can move.
     if (event.nativeEvent.state === State.END) {
 
@@ -95,54 +95,86 @@ export default class Stack extends React.Component {
       var success = event.nativeEvent.translationX > Dimensions.get('window').width / 4 && ('left' in this.state.current.props);
       if (success) {
   
-        this.state.lock = true;
-        Animated.timing(this.state.translate, {
-          toValue: Dimensions.get('window').width,
-          duration: 200,
-          useNativeDriver: false,
-          easing: Easing.linear,
-        }).start(() => {
+        // If there is a check, run the check to see if we can navigate.
+        if ('leftCheck' in this.state.current.props) {
+          success = await this.state.current.props.leftCheck();
+        }
 
-          if (this.state.left != null) {this.state.current = this.state.left;} 
-          else {this.state.current = this.state.bottom;}
+        if (success) {
 
-          this.state.left = null;
-          this.state.right = null;
-          this.state.bottom = null;
-          this.state.lock = false;
+          this.state.lock = true;
+          Animated.timing(this.state.translate, {
+            toValue: Dimensions.get('window').width,
+            duration: 200,
+            useNativeDriver: false,
+            easing: Easing.linear,
+          }).start(() => {
 
-          this.state.translate.setValue(0);
-          this.forceUpdate();
+            if (this.state.left != null) {this.state.current = this.state.left;} 
+            else {this.state.current = this.state.bottom;}
 
-        });
-        
+            this.state.left = null;
+            this.state.right = null;
+            this.state.bottom = null;
+            this.state.lock = false;
+
+            this.state.translate.setValue(0);
+            this.forceUpdate();
+
+          });
+
+        }
+
+        else {
+          Animated.spring(this.state.translate, {
+            toValue: 0,
+            useNativeDriver: false
+          }).start();
+        }
+
         return;
       } 
 
       // If the user moved far enough to the right.
       success = event.nativeEvent.translationX < -Dimensions.get('window').width / 4 && ('right' in this.state.current.props);
       if (success) {
+
+        // If there is a check, run the check to see if we can navigate.
+        if ('rightCheck' in this.state.current.props) {
+          success = await this.state.current.props.rightCheck();
+        }
   
-        this.state.lock = true;
-        Animated.timing(this.state.translate, {
-          toValue: -Dimensions.get('window').width,
-          duration: 200,
-          useNativeDriver: false,
-          easing: Easing.linear,
-        }).start(() => {
+        if (success) {
 
-          if (this.state.right != null) {this.state.current = this.state.right;} 
-          else {this.state.current = this.state.bottom;}
+          this.state.lock = true;
+          Animated.timing(this.state.translate, {
+            toValue: -Dimensions.get('window').width,
+            duration: 200,
+            useNativeDriver: false,
+            easing: Easing.linear,
+          }).start(() => {
 
-          this.state.left = null;
-          this.state.right = null;
-          this.state.bottom = null;
-          this.state.lock = false;
+            if (this.state.right != null) {this.state.current = this.state.right;} 
+            else {this.state.current = this.state.bottom;}
 
-          this.state.translate.setValue(0);
-          this.forceUpdate();
+            this.state.left = null;
+            this.state.right = null;
+            this.state.bottom = null;
+            this.state.lock = false;
 
-        });
+            this.state.translate.setValue(0);
+            this.forceUpdate();
+            
+          });
+
+        }
+
+        else {
+          Animated.spring(this.state.translate, {
+            toValue: 0,
+            useNativeDriver: false
+          }).start();
+        }
 
         return;
       } 

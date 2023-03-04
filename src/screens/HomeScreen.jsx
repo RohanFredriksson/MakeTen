@@ -1,106 +1,49 @@
-import React, { useRef } from 'react';
-import { StyleSheet, Keyboard, Alert, Linking, Dimensions, Animated } from 'react-native';
-import { Camera, useCameraDevices } from 'react-native-vision-camera';
-import { PanGestureHandler, State } from 'react-native-gesture-handler';
-import { ScreenCornerRadius } from "react-native-screen-corner-radius"
-import { NumberField } from '../components/NumberField';
+import React from 'react';
+import { Alert } from 'react-native';
+import { Camera } from 'react-native-vision-camera';
+
+import { Screen } from '../components/Screen';
+import { Stack } from '../components/Stack';
+import { CodeScreen } from './CodeScreen';
+import { CameraScreen } from './CameraScreen';
+import { SettingsScreen } from './SettingsScreen';
 
 const HomeScreen = ({navigation}) => {
 
-  const width = Dimensions.get('window').width;
-  const height = Dimensions.get('window').height;
-  const devices = useCameraDevices('wide-angle-camera');
-  const device = devices.back;
-  const translateX = useRef(new Animated.Value(0)).current;
+  const checkCameraPermission = async () => {
 
-  const onGestureEvent = (event) => {
-    const { translationX } = event.nativeEvent;
-    translateX.setValue(translationX);
-  };
+    const permission = await Camera.requestCameraPermission();
+    if (permission !== 'authorized') {
   
-  const onHandlerStateChange = async (event) => {
-
-    // If the user pressed down, dismiss the keyboard.
-    if (event.nativeEvent.state === State.BEGAN) {
-      Keyboard.dismiss();
+      Alert.alert('Camera access has been disabled.', 'Please enable camera access in the settings to use the camera.', [
+        {text: 'Settings', onPress: () => Linking.openSettings()},
+        {text: 'Return', onPress: () => {}, style: 'cancel',}
+      ]);
+  
+      return false;
     }
 
-    // If the user ends the gesture, determine if we can move.
-    if (event.nativeEvent.state === State.END) {
-      
-      // If the user moved far enough to the left.
-      var success = event.nativeEvent.translationX > width / 3;
-      if (success) {
-
-        // Get the camera permission
-        const permission = await Camera.requestCameraPermission();
-        if (permission !== 'authorized') {
-
-          // Prompt the user for camera access.
-          Alert.alert('Camera access has been disabled.', 'Please enable camera access in the settings to use the camera.', [
-            {text: 'Settings', onPress: () => Linking.openSettings()},
-            {text: 'Return', onPress: () => {}, style: 'cancel',}
-          ]);
-
-          // Even if the user allows access, return to home.
-          success = false;
-        }
-
-        else {
-          
-          // Check if there is a device that can be used.
-          if (device == null) {
-
-            // Prompt the user for camera access.
-            Alert.alert('No available camera devices.', 'There are no cameras on the device that can be used.', [
-              {text: 'Return', onPress: () => {}, style: 'cancel',}
-            ]);
-
-            // Raise the flag to return home.
-            success = false;
-          }
-
-          else {
-            // If we have sufficient permission, go to the camera.
-            navigation.navigate('Camera');
-            setTimeout(() => {translateX.setValue(0);}, 500);
-          }
-          
-        }
-        
-      } 
-      
-      // Spring the screen back to its default location.
-      if (!success) {
-        Animated.spring(translateX, {
-          toValue: 0,
-          useNativeDriver: false
-        }).start();
-      }
-
-    }
-
+    return true;
   };
 
   return (
-    <PanGestureHandler
-      onGestureEvent={(event) => {onGestureEvent(event);}}
-      onHandlerStateChange={(event) => {onHandlerStateChange(event);}}
-    >
-      <Animated.View style={[styles.container, { transform: [{ translateX }], width: width, height: height, borderRadius: ScreenCornerRadius, backgroundColor: '#F5F5F7' }]}>
-        <NumberField callback={(answer) => {navigation.navigate('Answer', {answer: answer});}}/>
-      </Animated.View>
-    </PanGestureHandler>
+    <Stack>
+
+      <Screen id='code' zIndex={1} left='camera' leftCheck={checkCameraPermission} right='settings'>
+        <CodeScreen navigation={navigation}/>
+      </Screen>
+
+      <Screen id='camera' zIndex={0} right='code'>
+        <CameraScreen navigation={navigation}/>
+      </Screen>
+      
+      <Screen id='settings' zIndex={0} left='code'>
+        <SettingsScreen navigation={navigation}/>
+      </Screen>
+
+    </Stack>
   );
 
 }
 
 export {HomeScreen};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  }
-});

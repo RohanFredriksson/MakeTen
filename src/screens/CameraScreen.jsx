@@ -4,7 +4,7 @@ import { Camera, useCameraDevices } from 'react-native-vision-camera';
 import TextRecognition from 'react-native-text-recognition';
 import { compute } from '../modules/compute'
 
-const CameraScreen = ({navigation}) => {
+const CameraScreen = (props) => {
 
   const width = Dimensions.get('window').width;
   const height = Dimensions.get('window').height;
@@ -47,15 +47,21 @@ const CameraScreen = ({navigation}) => {
 
     // Find the answer if it exists.
     const answer = compute(code, 10);
-    navigation.navigate('Answer', {answer: answer});
+    props.navigation.navigate('Answer', {answer: answer});
 
   }
 
   const renderCamera = () => {
 
     // Show a loading screen, whilst we prompt the user for camera permission.
-    if (permission !== "authorized" || device == null) {
-      return (<View/>);
+    if (!props.active || permission !== "authorized" || device == null) {
+      return (
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.button} onPress={() => {}}>
+            <Text style={styles.text}>Take Photo</Text>
+          </TouchableOpacity>
+        </View>
+      );
     }
 
     return (
@@ -66,7 +72,7 @@ const CameraScreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </Camera>
-    )
+    );
 
   }
 
