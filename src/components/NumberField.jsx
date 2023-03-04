@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { CodeField, Cursor, useBlurOnFulfill, useClearByFocusCell } from 'react-native-confirmation-code-field';
-import { compute } from './../modules/compute'
 
 const CELL_COUNT = 4;
 
@@ -19,10 +18,9 @@ const NumberField = ({ callback }) => {
     value = value.replace(/[^0-9]/g, '');
     setValue(value);
 
-    if (value.length == 4) {
-      const answer = compute(value, 10);
+    if (value.length == CELL_COUNT) {
+      callback(value);
       setValue('');
-      callback(answer);
     }
 
   }
