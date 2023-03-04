@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Dimensions } from 'react-native';
 import { Camera, useCameraDevices } from 'react-native-vision-camera';
+
 import TextRecognition from 'react-native-text-recognition';
 import { compute } from '../modules/compute'
 
@@ -25,6 +26,19 @@ const CameraScreen = (props) => {
     getStatus();
   }, []);
 
+  const getCode = (text) => {
+
+    // Check if there is a code with prefix letters first.
+    var code = text.match(/[DNT][0-9][0-9][0-9][0-9]/g);
+    if (code != null) {return code[0].replace(/[^0-9]/g, '');}
+
+    // Check if there is 4 digits in the text.
+    code = text.match(/[0-9][0-9][0-9][0-9]/g);
+    if (code != null) {return code[0];}
+
+    return null;
+  };
+
   const takePhoto = async () => {
     
     // Take a photo and perform OCR on it.
@@ -32,24 +46,14 @@ const CameraScreen = (props) => {
     const text = "" + (await TextRecognition.recognize(photo.path));
 
     // Determine if there is a 4 digit code in the photo.
-    var code = null;
-    for (i = 0; i < text.length; i++) {
-
-      const current = text.substring(i, i+4).replace(/[^0-9]/g, '');
-      if (current.length == 4) {
-        code = current;
-        break;
-      }
-
-    }
-    
+    const code = getCode(text);
     if (code == null) {return;}
 
     // Find the answer if it exists.
     const answer = compute(code, 10);
     props.navigation.navigate('Answer', {answer: answer});
 
-  }
+  };
 
   const renderCamera = () => {
 
@@ -74,13 +78,13 @@ const CameraScreen = (props) => {
       </Camera>
     );
 
-  }
+  };
 
   return (
     <View style={styles.container}>
       {renderCamera()}
     </View>
-  )
+  );
 
 }
 
