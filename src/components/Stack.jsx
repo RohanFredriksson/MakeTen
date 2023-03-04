@@ -12,6 +12,7 @@ export default class Stack extends React.Component {
       bottom: null,
       left: null,
       right: null,
+      lock: false,
       dictionary: {}, 
       translate: new Animated.Value(0)
     }
@@ -37,6 +38,7 @@ export default class Stack extends React.Component {
     const { translationX } = event.nativeEvent;
     if (!('left'  in current.props) && translationX > 0) {return;}
     if (!('right' in current.props) && translationX < 0) {return;}
+    if (this.state.lock) {return;}
     
     // Set the next screen state.
     if (translationX > 0) {
@@ -85,11 +87,15 @@ export default class Stack extends React.Component {
   
     // If the user ends the gesture, determine if we can move.
     if (event.nativeEvent.state === State.END) {
+
+      // If a gesture resolution is already being executed, return.
+      if (this.state.lock) {return;}
       
       // If the user moved far enough to the left.
-      var success = event.nativeEvent.translationX > Dimensions.get('window').width / 3 && ('left' in this.state.current.props);
+      var success = event.nativeEvent.translationX > Dimensions.get('window').width / 4 && ('left' in this.state.current.props);
       if (success) {
   
+        this.state.lock = true;
         Animated.timing(this.state.translate, {
           toValue: Dimensions.get('window').width,
           duration: 200,
@@ -103,6 +109,7 @@ export default class Stack extends React.Component {
           this.state.left = null;
           this.state.right = null;
           this.state.bottom = null;
+          this.state.lock = false;
 
           this.state.translate.setValue(0);
           this.forceUpdate();
@@ -112,9 +119,11 @@ export default class Stack extends React.Component {
         return;
       } 
 
-      success = event.nativeEvent.translationX < -Dimensions.get('window').width / 3 && ('right' in this.state.current.props);
+      // If the user moved far enough to the right.
+      success = event.nativeEvent.translationX < -Dimensions.get('window').width / 4 && ('right' in this.state.current.props);
       if (success) {
   
+        this.state.lock = true;
         Animated.timing(this.state.translate, {
           toValue: -Dimensions.get('window').width,
           duration: 200,
@@ -128,6 +137,7 @@ export default class Stack extends React.Component {
           this.state.left = null;
           this.state.right = null;
           this.state.bottom = null;
+          this.state.lock = false;
 
           this.state.translate.setValue(0);
           this.forceUpdate();

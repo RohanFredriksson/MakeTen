@@ -28,9 +28,7 @@ const NumberField = ({ callback }) => {
   }
 
   return (
-    <View>
-      <Text style={styles.title}>Enter the code:</Text>
-      <CodeField
+    <CodeField
       ref={ref}
       {...props}
       value={value}
@@ -50,14 +48,12 @@ const NumberField = ({ callback }) => {
           </Text>
         </View>
       )}
-      />
-    </View>
+    />
   );
 
 }
 
 const styles = StyleSheet.create({
-  title: {textAlign: 'center', fontSize: 30},
   codeFiledRoot: {
     marginTop: 20,
     width: 280,

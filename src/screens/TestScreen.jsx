@@ -4,7 +4,8 @@ import { ScreenCornerRadius } from "react-native-screen-corner-radius"
 
 import { Screen } from '../components/Screen';
 import { Stack } from '../components/Stack';
-import { NumberField } from '../components/NumberField';
+
+import { CodeScreen } from 'CodeScreen';
 
 const TestComponent = (props) => {
 
@@ -26,9 +27,7 @@ const TestScreen = ({navigation}) => {
       </Screen>
       
       <Screen id='code' zIndex={1} left='camera' right='settings'>
-        <View style={[styles.container, {backgroundColor: '#F5F5F7', borderRadius: ScreenCornerRadius}]}>
-          <NumberField callback={(answer) => {navigation.navigate('Answer', {answer: answer});}}/>
-        </View>
+        <CodeScreen navigation={navigation}/>
       </Screen>
 
       <Screen id='settings' zIndex={0} left='code'>
