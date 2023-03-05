@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import { Camera, useCameraDevices } from 'react-native-vision-camera';
 
 import TextRecognition from 'react-native-text-recognition';
@@ -13,17 +13,40 @@ const CameraScreen = (props) => {
   const device = devices.back;
   const camera = useRef(null);
 
-  const [permission, setPermission] = useState("not-determined");
-  const getStatus = async() => {
+  const [lock, setLock] = useState(false);
+  const [message, setMessage] = useState('Initialising camera.');
+  const [permission, setPermission] = useState('not-determined');
 
-    // Get the camera permission status.
+  const getPermission = async () => {
     const p = await Camera.requestCameraPermission();
     setPermission(p);
+  }
+
+  const scan = async () => {
+
+    const p = await Camera.getCameraPermissionStatus();
+    if (lock) {return;}
+    if (!props.active) {return;}
+    if (p !== 'authorized') {return;}
+    //if (device == null) {return;} // For some reason device is null even when working.
+
+    setLock(true);
+    setMessage('Scanning for a code.');
+    const photo = await camera.current.takePhoto();
+    const text = "" + (await TextRecognition.recognize(photo.path));
+    const code = getCode(text);
+
+    setLock(false);
+    if (code == null) {return;}
+    const answer = compute(code, 10);
+    props.navigation.navigate('Answer', {answer: answer});
 
   }
 
   useEffect(() => {
-    getStatus();
+    getPermission();
+    const interval = setInterval(scan, 1000);
+    return (() => clearInterval(interval));
   }, []);
 
   const getCode = (text) => {
@@ -32,49 +55,21 @@ const CameraScreen = (props) => {
     var code = text.match(/[DNT][0-9][0-9][0-9][0-9]/g);
     if (code != null) {return code[0].replace(/[^0-9]/g, '');}
 
-    // Check if there is 4 digits in the text.
-    code = text.match(/[0-9][0-9][0-9][0-9]/g);
-    if (code != null) {return code[0];}
-
     return null;
-  };
-
-  const takePhoto = async () => {
-    
-    // Take a photo and perform OCR on it.
-    const photo = await camera.current.takePhoto();
-    const text = "" + (await TextRecognition.recognize(photo.path));
-
-    // Determine if there is a 4 digit code in the photo.
-    const code = getCode(text);
-    if (code == null) {return;}
-
-    // Find the answer if it exists.
-    const answer = compute(code, 10);
-    props.navigation.navigate('Answer', {answer: answer});
-
   };
 
   const renderCamera = () => {
 
     // Show a loading screen, whilst we prompt the user for camera permission.
-    if (!props.active || permission !== "authorized" || device == null) {
+    if (!props.active || permission !== 'authorized' || device == null) {
       return (
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={() => {}}>
-            <Text style={styles.text}>Take Photo</Text>
-          </TouchableOpacity>
-        </View>
+        <Text style={styles.text}>{message}</Text>
       );
     }
 
     return (
       <Camera style={[styles.camera, {width: width, height: height}]} device={device} ref={camera} isActive={true} photo={true} enableZoomGesture={true}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={takePhoto}>
-            <Text style={styles.text}>Take Photo</Text>
-          </TouchableOpacity>
-        </View>
+        <Text style={styles.text}>{message}</Text>
       </Camera>
     );
 
@@ -97,21 +92,15 @@ const styles = StyleSheet.create({
   camera: {
     flex: 1,
   },
-  buttonContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor: 'transparent',
-    margin: 64,
-  },
-  button: {
-    flex: 1,
-    alignSelf: 'flex-end',
-    alignItems: 'center',
-  },
   text: {
     fontSize: 24,
     fontWeight: 'bold',
     color: 'white',
+    flex: 1,
+    flexDirection: 'row',
+    alignSelf: 'flex-end',
+    alignItems: 'center',
+    margin: 64,
   },
 });
 
