@@ -12,9 +12,11 @@ const CameraScreen = (props) => {
   const devices = useCameraDevices('wide-angle-camera');
   const device = devices.back;
   const camera = useRef(null);
+  const interval = useRef(null);
 
   const [lock, setLock] = useState(false);
-  const [message, setMessage] = useState('Initialising camera.');
+  const [count, setCount] = useState(0);
+  const [message, setMessage] = useState('Starting camera');
   const [permission, setPermission] = useState('not-determined');
 
   const getPermission = async () => {
@@ -28,10 +30,11 @@ const CameraScreen = (props) => {
     if (lock) {return;}
     if (!props.active) {return;}
     if (p !== 'authorized') {return;}
-    //if (device == null) {return;} // For some reason device is null even when working.
+    if (camera.current == null) {return;}
+    //if (device === undefined) {return;}
 
     setLock(true);
-    setMessage('Scanning for a code.');
+    setMessage('Scanning for a code');
     const photo = await camera.current.takePhoto();
     const text = "" + (await TextRecognition.recognize(photo.path));
     const code = getCode(text);
@@ -43,10 +46,15 @@ const CameraScreen = (props) => {
 
   }
 
+  const loop = () => {
+    setCount(count => (count + 1) % 3);
+    scan();
+  }
+
   useEffect(() => {
     getPermission();
-    const interval = setInterval(scan, 1000);
-    return (() => clearInterval(interval));
+    interval.current = setInterval(loop, 1000);
+    return (() => clearInterval(interval.current));
   }, []);
 
   const getCode = (text) => {
@@ -63,13 +71,13 @@ const CameraScreen = (props) => {
     // Show a loading screen, whilst we prompt the user for camera permission.
     if (!props.active || permission !== 'authorized' || device == null) {
       return (
-        <Text style={styles.text}>{message}</Text>
+        <Text style={styles.message}>{message + '.'.repeat(count+1)}</Text>
       );
     }
 
     return (
       <Camera style={[styles.camera, {width: width, height: height}]} device={device} ref={camera} isActive={true} photo={true} enableZoomGesture={true}>
-        <Text style={styles.text}>{message}</Text>
+        <Text style={styles.message}>{message + '.'.repeat(count+1)}</Text>
       </Camera>
     );
 
@@ -92,15 +100,13 @@ const styles = StyleSheet.create({
   camera: {
     flex: 1,
   },
-  text: {
+  message: {
     fontSize: 24,
     fontWeight: 'bold',
     color: 'white',
-    flex: 1,
-    flexDirection: 'row',
-    alignSelf: 'flex-end',
-    alignItems: 'center',
-    margin: 64,
+    position: 'absolute',
+    bottom: 32,
+    left: 32,
   },
 });
 
