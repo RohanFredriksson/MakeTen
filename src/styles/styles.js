@@ -15,14 +15,31 @@ const getStyles = (name) => {
       backgroundColor: theme.primary,
       color: theme.onPrimary,
       fontSize: 36,
-      fontFamily: 'Inter-Light',
+      fontFamily: 'Inter-Regular',
       textAlign: 'center', 
+      paddingBottom: 10,
+      paddingTop: 10,
     },
     text: {
       color: '#fff',
       fontSize: 36,
-      fontFamily: 'Inter-Light',
+      fontFamily: 'Inter-Regular',
       textAlign: 'center',
+    },
+    primary: {
+      backgroundColor: theme.primary,
+    },
+    secondary: {
+      backgroundColor: theme.secondary,
+    },
+    background: {
+      backgroundColor: theme.background,
+    },
+    surface: {
+      backgroundColor: theme.surface,
+    },
+    error: {
+      backgroundColor: theme.error,
     },
     camera: {
       flex: 1,
@@ -31,7 +48,7 @@ const getStyles = (name) => {
       color: 'white',
       fontSize: 24,
       fontWeight: 'bold',
-      fontFamily: 'Inter-Light',
+      fontFamily: 'Inter-Regular',
       position: 'absolute',
       bottom: 32,
       left: 32,

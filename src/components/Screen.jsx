@@ -20,6 +20,7 @@ export default class Screen extends React.Component {
         style={{
           width: Dimensions.get('window').width, 
           height: Dimensions.get('window').height, 
+          overflow: 'hidden',
           borderRadius: ScreenCornerRadius,
         }}
       >

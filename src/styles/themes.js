@@ -1,7 +1,7 @@
 const light = {
   primary: '#F47A0B',
   secondary: '#F3CB30',
-  background: '#FFFFFF',
+  background: '#F5F5F7',
   surface: '#FFFFFF',
   error: '#B00020',
   onPrimary: '#FFFFFF',
