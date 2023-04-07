@@ -1,9 +1,10 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import { ScreenCornerRadius } from "react-native-screen-corner-radius"
+import { View, Text } from 'react-native';
+import { ScreenCornerRadius } from "react-native-screen-corner-radius";
 
 import { NumberField } from '../components/NumberField';
-import { compute } from './../modules/compute'
+import { compute } from './../modules/compute';
+import { getStyles } from './../styles/styles';
 
 const CodeScreen = (props) => {
 
@@ -14,23 +15,13 @@ const CodeScreen = (props) => {
 
   return (
     <View style={[styles.container, {backgroundColor: '#F5F5F7', borderRadius: ScreenCornerRadius}]}>
-      <Text style={styles.title}>Enter the code:</Text>
+      <Text style={styles.sign}>Circular Quay</Text>
       <NumberField callback={solve}/>
     </View>
   );
 
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    textAlign: 'center', 
-    fontSize: 30
-  }
-});
+const styles = getStyles('light');
 
 export {CodeScreen};

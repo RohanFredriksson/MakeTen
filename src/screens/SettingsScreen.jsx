@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { getStyles } from './../styles/styles';
 
 const SettingsScreen = (props) => {
 
@@ -11,17 +12,6 @@ const SettingsScreen = (props) => {
   
 }
 
-export { SettingsScreen };
+const styles = getStyles('light');
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#000',
-  },
-});
+export { SettingsScreen };

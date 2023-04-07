@@ -4,6 +4,7 @@ import { Camera, useCameraDevices } from 'react-native-vision-camera';
 
 import TextRecognition from 'react-native-text-recognition';
 import { compute } from '../modules/compute'
+import { getStyles } from './../styles/styles';
 
 const CameraScreen = (props) => {
 
@@ -71,13 +72,13 @@ const CameraScreen = (props) => {
     // Show a loading screen, whilst we prompt the user for camera permission.
     if (!props.active || permission !== 'authorized' || device == null) {
       return (
-        <Text style={styles.message}>{message + '.'.repeat(count+1)}</Text>
+        <Text style={styles.status}>{message + '.'.repeat(count+1)}</Text>
       );
     }
 
     return (
       <Camera style={[styles.camera, {width: width, height: height}]} device={device} ref={camera} isActive={true} photo={true} enableZoomGesture={true}>
-        <Text style={styles.message}>{message + '.'.repeat(count+1)}</Text>
+        <Text style={styles.status}>{message + '.'.repeat(count+1)}</Text>
       </Camera>
     );
 
@@ -91,23 +92,6 @@ const CameraScreen = (props) => {
 
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  camera: {
-    flex: 1,
-  },
-  message: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'white',
-    position: 'absolute',
-    bottom: 32,
-    left: 32,
-  },
-});
+const styles = getStyles('light');
 
 export {CameraScreen};
