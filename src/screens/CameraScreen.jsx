@@ -35,7 +35,7 @@ const CameraScreen = (props) => {
 
     setLock(true);
     setMessage('Scanning for a code');
-    const photo = await camera.current.takePhoto();
+    const photo = await camera.current.takePhoto({disableShutterSound: true});
     const text = "" + (await TextRecognition.recognize(photo.path));
     const code = getCode(text);
 

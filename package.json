@@ -21,7 +21,7 @@
     "react-native-screen-corner-radius": "^0.1.1",
     "react-native-screens": "^3.20.0",
     "react-native-text-recognition": "^1.0.0",
-    "react-native-vision-camera": "^2.15.4"
+    "react-native-vision-camera": "github:imjihun/react-native-vision-camera"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
