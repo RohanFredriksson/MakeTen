@@ -1,4 +1,5 @@
 import React from 'react';
+import { StatusBar } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -20,13 +21,15 @@ function MyStack() {
       cardStyle: { backgroundColor: '#000' },
       cardStyleInterpolator: forFade,
     }}>
-      <Stack.Screen name="Test" component={HomeScreen}/>
+      <Stack.Screen name="Home" component={HomeScreen}/>
       <Stack.Screen name="Answer" component={AnswerScreen}/>
     </Stack.Navigator>
   );
 }
 
 export default function App() {
+
+  StatusBar.setBarStyle('light-content');
 
   return (
     <NavigationContainer>
