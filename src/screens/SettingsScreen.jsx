@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { getStyles } from './../styles/styles';
 
+const styles = getStyles('dark');
+
 const SettingsScreen = (props) => {
 
   return (
@@ -11,7 +13,5 @@ const SettingsScreen = (props) => {
   )
   
 }
-
-const styles = getStyles('dark');
 
 export { SettingsScreen };

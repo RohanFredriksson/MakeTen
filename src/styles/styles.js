@@ -1,9 +1,6 @@
 import { StyleSheet } from 'react-native';
-import { getTheme } from './themes';
 
-const getStyles = (name) => {
-
-  const theme = getTheme(name);
+function getStyles() {
 
   return StyleSheet.create({
     container: {
@@ -11,35 +8,13 @@ const getStyles = (name) => {
       alignItems: 'center',
       justifyContent: 'center',
     },
-    sign: {
-      backgroundColor: theme.primary,
-      color: theme.onPrimary,
+    header: {
       fontSize: 36,
       fontFamily: 'Inter-Regular',
-      textAlign: 'center', 
-      paddingBottom: 10,
-      paddingTop: 10,
     },
-    text: {
-      color: '#fff',
-      fontSize: 36,
+    paragraph: {
+      fontSize: 18,
       fontFamily: 'Inter-Regular',
-      textAlign: 'center',
-    },
-    primary: {
-      backgroundColor: theme.primary,
-    },
-    secondary: {
-      backgroundColor: theme.secondary,
-    },
-    background: {
-      backgroundColor: theme.background,
-    },
-    surface: {
-      backgroundColor: theme.surface,
-    },
-    error: {
-      backgroundColor: theme.error,
     },
     camera: {
       flex: 1,

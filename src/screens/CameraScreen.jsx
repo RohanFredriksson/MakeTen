@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import { Text, View, Dimensions } from 'react-native';
 import { Camera, useCameraDevices } from 'react-native-vision-camera';
 
 import TextRecognition from 'react-native-text-recognition';
 import { compute } from '../modules/compute'
 import { getStyles } from './../styles/styles';
+
+const styles = getStyles('dark');
 
 const CameraScreen = (props) => {
 
@@ -77,7 +79,7 @@ const CameraScreen = (props) => {
     }
 
     return (
-      <Camera style={[styles.camera, {width: width, height: height}]} device={device} ref={camera} isActive={true} photo={true} enableZoomGesture={true}>
+      <Camera style={{width: width, height: height, flex: 1}} device={device} ref={camera} isActive={true} photo={true} enableZoomGesture={true}>
         <Text style={styles.status}>{message + '.'.repeat(count+1)}</Text>
       </Camera>
     );
@@ -91,7 +93,5 @@ const CameraScreen = (props) => {
   );
 
 }
-
-const styles = getStyles('dark');
 
 export {CameraScreen};

@@ -7,11 +7,18 @@ import { HomeScreen } from './src/screens/HomeScreen';
 
 const Stack = createStackNavigator();
 
+const forFade = ({ current }) => ({
+  cardStyle: {
+    opacity: current.progress,
+  },
+});
+
 function MyStack() {
   return (
     <Stack.Navigator screenOptions={{
       headerShown: false,
-      cardStyle: { backgroundColor: '#000' }
+      cardStyle: { backgroundColor: '#000' },
+      cardStyleInterpolator: forFade,
     }}>
       <Stack.Screen name="Test" component={HomeScreen}/>
       <Stack.Screen name="Answer" component={AnswerScreen}/>
