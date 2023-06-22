@@ -12,6 +12,6 @@ const SettingsScreen = (props) => {
   
 }
 
-const styles = getStyles('light');
+const styles = getStyles('dark');
 
 export { SettingsScreen };

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { CodeField, Cursor, useBlurOnFulfill, useClearByFocusCell } from 'react-native-confirmation-code-field';
+import { getStyles } from './../styles/styles';
+import { getTheme } from './../styles/themes';
 
 const CELL_COUNT = 4;
 
@@ -51,6 +53,8 @@ const NumberField = ({ callback }) => {
 
 }
 
+const theme = getTheme('dark');
+
 const styles = StyleSheet.create({
   codeFiledRoot: {
     marginTop: 20,
@@ -63,8 +67,8 @@ const styles = StyleSheet.create({
     height: 60,
     justifyContent: 'center',
     alignItems: 'center',
-    borderBottomColor: '#ccc',
-    borderBottomWidth: 1,
+    backgroundColor: theme.surface,
+    borderRadius: 10,
   },
   cellText: {
     color: '#000',
@@ -72,8 +76,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   focusCell: {
-    borderBottomColor: '#007AFF',
-    borderBottomWidth: 2,
+    backgroundColor: theme.primary,
   },
 });
 

@@ -92,6 +92,6 @@ const CameraScreen = (props) => {
 
 }
 
-const styles = getStyles('light');
+const styles = getStyles('dark');
 
 export {CameraScreen};

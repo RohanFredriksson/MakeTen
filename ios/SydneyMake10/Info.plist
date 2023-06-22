@@ -59,7 +59,7 @@
 	<false/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Inter-Light.ttf</string>
+		<string>Inter-Regular.ttf</string>
 	</array>
 </dict>
 </plist>
