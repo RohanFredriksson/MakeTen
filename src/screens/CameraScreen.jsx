@@ -5,8 +5,10 @@ import { Camera, useCameraDevices } from 'react-native-vision-camera';
 import TextRecognition from 'react-native-text-recognition';
 import { compute } from '../modules/compute'
 import { getStyles } from './../styles/styles';
+import { getTheme } from './../styles/themes';
 
-const styles = getStyles('dark');
+const styles = getStyles();
+const theme = getTheme('dark');
 
 const CameraScreen = (props) => {
 
@@ -74,13 +76,13 @@ const CameraScreen = (props) => {
     // Show a loading screen, whilst we prompt the user for camera permission.
     if (!props.active || permission !== 'authorized' || device == null) {
       return (
-        <Text style={styles.status}>{message + '.'.repeat(count+1)}</Text>
+        <Text style={[styles.header, {color: theme.white, position: 'absolute', bottom: 32, left: 32}]}>{message + '.'.repeat(count+1)}</Text>
       );
     }
 
     return (
       <Camera style={{width: width, height: height, flex: 1}} device={device} ref={camera} isActive={true} photo={true} enableZoomGesture={true}>
-        <Text style={styles.status}>{message + '.'.repeat(count+1)}</Text>
+        <Text style={[styles.header, {color: theme.white, position: 'absolute', bottom: 32, left: 32}]}>{message + '.'.repeat(count+1)}</Text>
       </Camera>
     );
 

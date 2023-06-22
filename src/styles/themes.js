@@ -2,6 +2,7 @@ const dark = {
   primary: '#FBE800',
   background: '#1B1F28',
   surface: '#FFFFFC',
+  title: '#FFFFFF',
   header: '#FFFFFF',
   paragraph: '#717576',
   black: '#000000',

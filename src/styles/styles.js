@@ -8,25 +8,17 @@ function getStyles() {
       alignItems: 'center',
       justifyContent: 'center',
     },
-    header: {
+    title: {
       fontSize: 36,
+      fontFamily: 'Inter-Regular',
+    },
+    header: {
+      fontSize: 24,
       fontFamily: 'Inter-Regular',
     },
     paragraph: {
       fontSize: 18,
       fontFamily: 'Inter-Regular',
-    },
-    camera: {
-      flex: 1,
-    },
-    status: {
-      color: 'white',
-      fontSize: 24,
-      fontWeight: 'bold',
-      fontFamily: 'Inter-Regular',
-      position: 'absolute',
-      bottom: 32,
-      left: 32,
     },
   });
 
