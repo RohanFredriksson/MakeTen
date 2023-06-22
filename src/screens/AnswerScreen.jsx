@@ -1,5 +1,11 @@
 import React from 'react';
-import { View, StyleSheet, Text, Button } from 'react-native';
+import { View, Text, Button } from 'react-native';
+
+import { getStyles } from './../styles/styles';
+import { getTheme } from './../styles/themes';
+
+const styles = getStyles();
+const theme = getTheme('dark');
 
 function getColor(success) {
   if (success) {return {backgroundColor: '#4cda64'}};
@@ -10,27 +16,28 @@ const AnswerScreen = ({navigation, route}) => {
 
   const answer = route.params.answer;
   const success = answer != null;
+  const color = getColor(success);
 
-  return (
-    <View style={[styles.container, getColor(success)]}>
-      <Text style={styles.text}>{answer}</Text>
-      <Button title="Return" onPress={() => navigation.pop()}/>
-    </View>
-  );
+  if (success) {
+
+    return (
+      <View style={[styles.container, color]}>
+        <Text style={[styles.title, {color: theme.white}]}>Solution: </Text>
+        <Text style={[styles.header, {color: theme.white}]}>{answer}</Text>
+        <Button title="Return" onPress={() => navigation.pop()}/>
+      </View>
+    );
+  }
+
+  else {
+    return (
+      <View style={[styles.container, color]}>
+        <Text style={[styles.header, {color: theme.white}]}>{answer}</Text>
+        <Button title="Return" onPress={() => navigation.pop()}/>
+      </View>
+    );
+  }
 
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    color: '#fff',
-    fontSize: 36,
-    textAlign: 'center',
-  },
-});
 
 export {AnswerScreen};
