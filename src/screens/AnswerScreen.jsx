@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, TouchableHighlight } from 'react-native';
 
 import { getStyles } from './../styles/styles';
 import { getTheme } from './../styles/themes';
@@ -7,33 +7,68 @@ import { getTheme } from './../styles/themes';
 const styles = getStyles();
 const theme = getTheme('dark');
 
-function getColor(success) {
-  if (success) {return {backgroundColor: '#4cda64'}};
-  return {backgroundColor: '#fe0000'};
-}
-
 const AnswerScreen = ({navigation, route}) => {
 
   const answer = route.params.answer;
   const success = answer != null;
-  const color = getColor(success);
 
   if (success) {
 
+    var difficulty = 0;
+    var operators = 0;
+    if (answer.includes('+')) {operators++;}
+    if (answer.includes('-')) {operators++;}
+    if (answer.includes('*')) {operators++;}
+    if (answer.includes('/')) {operators++;}
+
+    if (operators > 2) {difficulty++;}
+    if (answer.includes('(')) {difficulty++;}
+
+    var message = 'That one was pretty easy.\nJust checking your answer?';
+    if (difficulty == 1) {message = 'Not the easiest one I\'ve seen,\nbut there are also harder ones.';}
+    if (difficulty == 2) {message = 'That one was quite tricky.\nCongrats if you got it yourself!';}
+
     return (
-      <View style={[styles.container, color]}>
-        <Text style={[styles.title, {color: theme.white}]}>Solution: </Text>
-        <Text style={[styles.header, {color: theme.white}]}>{answer}</Text>
-        <Button title="Return" onPress={() => navigation.pop()}/>
+      <View style={[styles.container, {backgroundColor: '#4CDA64'}]}>
+        <View style={{alignItems: 'flex-start', padding: 30, backgroundColor: theme.background, borderRadius: 20, transform: [{translateY: -25}]}}>
+
+          <Text style={[styles.title, {color: theme.title, paddingBottom: 20}]}>Solution</Text>
+          <Text style={[styles.paragraph, {color: theme.white, paddingBottom: 30}]}>{message}</Text>
+          
+          <View style={{width: 280}}>
+            <Text style={[styles.title, {color: theme.white, textAlign: 'center', paddingBottom: 30}]}>{answer}</Text>
+          </View>
+
+          <TouchableHighlight
+            style={[{width: 280, height: 60, backgroundColor: theme.primary, borderRadius: 10}]}
+            underlayColor={theme.primary}
+            onPress={() => navigation.pop()}
+          >
+            <View style={styles.container}><Text style={styles.paragraph}>Return</Text></View>
+          </TouchableHighlight>
+
+        </View>
       </View>
     );
   }
 
   else {
     return (
-      <View style={[styles.container, color]}>
-        <Text style={[styles.header, {color: theme.white}]}>{answer}</Text>
-        <Button title="Return" onPress={() => navigation.pop()}/>
+      <View style={[styles.container, {backgroundColor: '#FE0000'}]}>
+        <View style={{alignItems: 'flex-start', padding: 30, backgroundColor: theme.background, borderRadius: 20, transform: [{translateY: 11}]}}>
+
+          <Text style={[styles.title, {color: theme.title, paddingBottom: 20}]}>No Solution</Text>
+          <Text style={[styles.paragraph, {color: theme.white, paddingBottom: 30}]}>Sometimes the universe just{'\n'}doesn't want to play nice :(</Text>
+
+          <TouchableHighlight
+            style={[{width: 280, height: 60, backgroundColor: theme.primary, borderRadius: 10}]}
+            underlayColor={theme.primary}
+            onPress={() => navigation.pop()}
+          >
+            <View style={styles.container}><Text style={styles.paragraph}>Return</Text></View>
+          </TouchableHighlight>
+
+        </View>
       </View>
     );
   }

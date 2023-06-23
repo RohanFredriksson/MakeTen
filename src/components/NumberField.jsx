@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, TouchableHighlightBase } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import { CodeField, Cursor, useBlurOnFulfill, useClearByFocusCell } from 'react-native-confirmation-code-field';
 import { getStyles } from './../styles/styles';
 import { getTheme } from './../styles/themes';
@@ -37,7 +37,7 @@ const fieldStyles = StyleSheet.create({
 const NumberField = ({ callback }) => {
 
   const [value, setValue] = useState('');
-  const [errorMessage, setErrorMessage] = useState(' ');
+  const [message, setMessage] = useState(' ');
   const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
@@ -53,9 +53,9 @@ const NumberField = ({ callback }) => {
     if (value.length == CELL_COUNT) {
       callback(value);
       setValue('');
-      setErrorMessage(' ');
+      setMessage(' ');
     } else {
-      setErrorMessage('Please enter a four digit code');
+      setMessage('Please enter a four digit code');
     }
   }
 
@@ -83,7 +83,7 @@ const NumberField = ({ callback }) => {
           </View>
         )}
       />
-      <Text style={[styles.paragraph, {textAlign: 'center', color: theme.paragraph, paddingVertical: 40}]}>{errorMessage}</Text>
+      <Text style={[styles.paragraph, {textAlign: 'center', color: theme.paragraph, paddingVertical: 40}]}>{message}</Text>
       <TouchableHighlight
         style={[{width: 280, height: 60, backgroundColor: theme.primary, borderRadius: 10}]}
         underlayColor={theme.primary}

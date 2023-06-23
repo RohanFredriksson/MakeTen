@@ -20,8 +20,7 @@ const CodeScreen = (props) => {
     <View style={[styles.container, {backgroundColor: theme.background}]}>
       <View style={{position: 'absolute', transform: [{translateY: -80}]}}>
         <Text style={[styles.title, {color: theme.title, paddingBottom: 20}]}>Make Ten</Text>
-        <Text style={[styles.paragraph, {color: theme.paragraph}]}>Enter a 4 digit train code or</Text>
-        <Text style={[styles.paragraph, {color: theme.paragraph, paddingBottom: 30}]}>swipe to explore</Text>
+        <Text style={[styles.paragraph, {color: theme.paragraph, paddingBottom: 30}]}>Enter a 4 digit train code or{'\n'}swipe to explore</Text>
         <View style={[]}><NumberField callback={solve}/></View>
       </View>
     </View>

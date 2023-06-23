@@ -44,7 +44,7 @@ export default class Stack extends React.Component {
     if (translationX > 0) {
 
       const left = dictionary[current.props.left];
-      if (left.props.zIndex < current.props.zIndex) {
+      if (left && left.props.zIndex < current.props.zIndex) {
 
         this.state.bottom = left;
         this.state.left = null;
@@ -61,7 +61,7 @@ export default class Stack extends React.Component {
     } else {
 
       const right = dictionary[current.props.right];
-      if (right.props.zIndex < current.props.zIndex) {
+      if (right && right.props.zIndex < current.props.zIndex) {
 
         this.state.bottom = right;
         this.state.left = null;
