@@ -6,7 +6,7 @@ import { Screen } from '../components/Screen';
 import { Stack } from '../components/Stack';
 import { CodeScreen } from './CodeScreen';
 import { CameraScreen } from './CameraScreen';
-//import { SettingsScreen } from './SettingsScreen';
+import { SettingsScreen } from './SettingsScreen';
 
 const HomeScreen = ({navigation}) => {
 
@@ -29,31 +29,21 @@ const HomeScreen = ({navigation}) => {
   return (
     <Stack>
 
-      <Screen id='code' zIndex={1} left='camera' leftCheck={checkCameraPermission}>
+      <Screen id='code' zIndex={1} left='camera' leftCheck={checkCameraPermission} right='settings'>
         <CodeScreen navigation={navigation}/>
       </Screen>
 
       <Screen id='camera' zIndex={0} right='code'>
         <CameraScreen navigation={navigation}/>
       </Screen>
+
+      <Screen id='settings' zIndex={0} left='code'>
+        <SettingsScreen navigation={navigation}/>
+      </Screen>
       
     </Stack>
   );
 
 }
-
-/*
-<Screen id='code' zIndex={1} left='camera' leftCheck={checkCameraPermission} right='settings'>
-  <CodeScreen navigation={navigation}/>
-</Screen>
-
-<Screen id='camera' zIndex={0} right='code'>
-  <CameraScreen navigation={navigation}/>
-</Screen>
-
-<Screen id='settings' zIndex={0} left='code'>
-  <SettingsScreen navigation={navigation}/>
-</Screen>
-*/
 
 export {HomeScreen};

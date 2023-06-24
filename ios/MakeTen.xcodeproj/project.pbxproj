@@ -11,6 +11,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		1CBA4AF22A46AF8400AB861A /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1CBA4AF12A46AF8400AB861A /* Settings.bundle */; };
 		2D86489FE5D7D2F3150A0F92 /* libPods-MakeTen-MakeTenTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 34FBE2E6F04C602F462CFE1B /* libPods-MakeTen-MakeTenTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		C53F2EFEDE0C43238CB93DB6 /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B0A915238334699834843F9 /* Inter-Regular.ttf */; };
@@ -37,6 +38,7 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = MakeTen/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = MakeTen/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = MakeTen/main.m; sourceTree = "<group>"; };
+		1CBA4AF12A46AF8400AB861A /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		34FBE2E6F04C602F462CFE1B /* libPods-MakeTen-MakeTenTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MakeTen-MakeTenTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B0A915238334699834843F9 /* Inter-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Regular.ttf"; path = "../src/assets/fonts/Inter-Regular.ttf"; sourceTree = "<group>"; };
 		4B841CDDA4191C5C9D9A2009 /* Pods-MakeTen-MakeTenTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MakeTen-MakeTenTests.release.xcconfig"; path = "Target Support Files/Pods-MakeTen-MakeTenTests/Pods-MakeTen-MakeTenTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				1CBA4AF12A46AF8400AB861A /* Settings.bundle */,
 				13B07FAE1A68108700A75B9A /* MakeTen */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* MakeTenTests */,
@@ -253,6 +256,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CBA4AF22A46AF8400AB861A /* Settings.bundle in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				C53F2EFEDE0C43238CB93DB6 /* Inter-Regular.ttf in Resources */,
