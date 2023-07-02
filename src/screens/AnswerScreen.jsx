@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, TouchableHighlight } from 'react-native';
+import React, { useRef } from 'react';
+import { View, Text, TouchableHighlight, TouchableWithoutFeedback, Animated, Easing, Settings } from 'react-native';
 
 import { getStyles } from './../styles/styles';
 import { getTheme } from './../styles/themes';
@@ -11,6 +11,14 @@ const AnswerScreen = ({navigation, route}) => {
 
   const answer = route.params.answer;
   const success = answer != null;
+  const spoilerOpacity = useRef(new Animated.Value(1.0)).current;
+  const textOpacity = useRef(new Animated.Value(0.0)).current;
+
+  const reveal = () => {
+    const spoilerTiming = Animated.timing(spoilerOpacity, {toValue: 0.0, duration: 200, useNativeDriver: true, easing: Easing.linear});
+    const textTiming = Animated.timing(textOpacity, {toValue: 1.0, duration: 200, useNativeDriver: true, easing: Easing.linear});
+    Animated.parallel([spoilerTiming, textTiming]).start();
+  }
 
   if (success) {
 
@@ -32,15 +40,24 @@ const AnswerScreen = ({navigation, route}) => {
       <View style={[styles.container, {backgroundColor: '#4CDA64'}]}>
         <View style={{alignItems: 'flex-start', padding: 30, backgroundColor: theme.background, borderRadius: 20, transform: [{translateY: -25}]}}>
 
-          <Text style={[styles.title, {color: theme.title, paddingBottom: 20}]}>Solution</Text>
-          <Text style={[styles.paragraph, {color: theme.white, paddingBottom: 30}]}>{message}</Text>
-          
-          <View style={{width: 280}}>
-            <Text style={[styles.title, {color: theme.white, textAlign: 'center', paddingBottom: 30}]}>{answer}</Text>
+          <View style={{flexDirection: 'row', paddingBottom: 20}}>
+            <Text style={[styles.title, {color: theme.title}]}>Solution</Text>
+            {(Settings.get('spoiler') == true) && <Animated.View style={{opacity: spoilerOpacity}}><Text style={[styles.title, {color: theme.title}]}> Exists</Text></Animated.View>}
           </View>
+          
+          <Text style={[styles.paragraph, {color: theme.white, paddingBottom: 30}]}>{message}</Text>          
+          <Text style={[styles.title, {color: theme.white, width: 280, textAlign: 'center'}]}>{answer}</Text>
+
+          {(Settings.get('spoiler') == true) && <TouchableWithoutFeedback onPress={() => reveal()}>
+            <Animated.View style={{position: 'absolute', width: 280, height: 120, backgroundColor: '#333333', borderRadius: 10, transform: [{translateX: 30}, {translateY: 90}], opacity: spoilerOpacity}}>
+              <View style={styles.container}>
+                <Text style={[styles.paragraph, {color: theme.white}]}>Hold to reveal</Text>
+              </View>
+            </Animated.View>
+          </TouchableWithoutFeedback>}
 
           <TouchableHighlight
-            style={[{width: 280, height: 60, backgroundColor: theme.primary, borderRadius: 10}]}
+            style={[{width: 280, height: 60, backgroundColor: theme.primary, borderRadius: 10, marginTop: 30}]}
             underlayColor={theme.primary}
             onPress={() => navigation.pop()}
           >

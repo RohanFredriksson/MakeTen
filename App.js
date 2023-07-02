@@ -22,7 +22,7 @@ function MyStack() {
       cardStyleInterpolator: forFade,
     }}>
       <Stack.Screen name="Home" component={HomeScreen}/>
-      <Stack.Screen name="Answer" component={AnswerScreen}/>
+      <Stack.Screen name="Answer" component={AnswerScreen} options={{gestureEnabled: false}}/>
     </Stack.Navigator>
   );
 }
@@ -33,7 +33,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <MyStack />
+      <MyStack/>
     </NavigationContainer>
   );
 
