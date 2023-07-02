@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { StyleSheet, Text, View, TouchableHighlight, Animated, Easing } from 'react-native';
 import { CodeField, Cursor, useBlurOnFulfill, useClearByFocusCell } from 'react-native-confirmation-code-field';
 import { getStyles } from './../styles/styles';
 import { getTheme } from './../styles/themes';
@@ -37,12 +37,9 @@ const fieldStyles = StyleSheet.create({
 const NumberField = ({ callback }) => {
 
   const [value, setValue] = useState('');
-  const [message, setMessage] = useState(' ');
+  const [props, getCellOnLayoutHandler] = useClearByFocusCell({value, setValue});
+  const opacity = useRef(new Animated.Value(0.0)).current;
   const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
-  const [props, getCellOnLayoutHandler] = useClearByFocusCell({
-    value,
-    setValue,
-  });
 
   function updateValue(value) {
     value = value.replace(/[^0-9]/g, '');
@@ -53,9 +50,13 @@ const NumberField = ({ callback }) => {
     if (value.length == CELL_COUNT) {
       callback(value);
       setValue('');
-      setMessage(' ');
     } else {
-      setMessage('Please enter a four digit code');
+      Animated.timing(opacity, {
+        toValue: 1.0, 
+        duration: 200, 
+        useNativeDriver: true, 
+        easing: Easing.linear}
+      ).start();
     }
   }
 
@@ -83,7 +84,7 @@ const NumberField = ({ callback }) => {
           </View>
         )}
       />
-      <Text style={[styles.paragraph, {textAlign: 'center', color: theme.paragraph, paddingVertical: 40}]}>{message}</Text>
+      <Animated.View style={{opacity: opacity}}><Text style={[styles.paragraph, {textAlign: 'center', color: theme.paragraph, paddingVertical: 40}]}>Please enter a four digit code</Text></Animated.View>
       <TouchableHighlight
         style={[{width: 280, height: 60, backgroundColor: theme.primary, borderRadius: 10}]}
         underlayColor={theme.primary}
