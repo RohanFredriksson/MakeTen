@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import { View, Text, TouchableHighlight, TouchableWithoutFeedback, Dimensions, Animated, Easing, Settings } from 'react-native';
+import React from 'react';
+import { View, Text, TouchableHighlight, Dimensions, Settings } from 'react-native';
 
 import { getStyles } from './../styles/styles';
 import { getTheme } from './../styles/themes';
@@ -14,16 +14,29 @@ const AnswerScreen = ({navigation, route}) => {
 
   const answer = route.params.answer;
   const success = answer != null;
-  const spoilerOpacity = useRef(new Animated.Value(1.0)).current;
-  const textOpacity = useRef(new Animated.Value(0.0)).current;
-
-  const reveal = () => {
-    const spoilerTiming = Animated.timing(spoilerOpacity, {toValue: 0.0, duration: 200, useNativeDriver: true, easing: Easing.linear});
-    const textTiming = Animated.timing(textOpacity, {toValue: 1.0, duration: 200, useNativeDriver: true, easing: Easing.linear});
-    Animated.parallel([spoilerTiming, textTiming]).start();
-  }
 
   if (success) {
+
+    if (Settings.get('spoiler') == true) {
+      return (
+        <View style={[styles.container, {backgroundColor: '#4CDA64'}]}>
+        <View style={{alignItems: 'flex-start', padding: 0.03554502369 * height, backgroundColor: theme.background, borderRadius: 0.02369668246 * height, transform: [{translateY: 0.01303317535 * height}]}}>
+
+          <Text style={[styles.title, {color: theme.title, paddingBottom: 0.02369668246 * height}]}>Solution Exists</Text>
+          <Text style={[styles.paragraph, {color: theme.white, paddingBottom: 0.03554502369 * height}]}>Turn off the spoiler guard in{'\n'}the settings to see the solution</Text>
+
+          <TouchableHighlight
+            style={[{width: 0.3317535545 * height, height: 0.07109004739 * height, backgroundColor: theme.primary, borderRadius: 0.01184834123 * height}]}
+            underlayColor={theme.primary}
+            onPress={() => navigation.pop()}
+          >
+            <View style={styles.container}><Text style={styles.paragraph}>Return</Text></View>
+          </TouchableHighlight>
+
+        </View>
+      </View>
+      );
+    }
 
     var difficulty = 0;
     var operators = 0;
@@ -43,21 +56,9 @@ const AnswerScreen = ({navigation, route}) => {
       <View style={[styles.container, {backgroundColor: '#4CDA64'}]}>
         <View style={{alignItems: 'flex-start', padding: 0.03554502369 * height, backgroundColor: theme.background, borderRadius: 0.02369668246 * height, transform: [{translateY: -0.02962085308 * height}]}}>
 
-          <View style={{flexDirection: 'row', paddingBottom: 0.02369668246 * height}}>
-            <Text style={[styles.title, {color: theme.title}]}>Solution</Text>
-            {(Settings.get('spoiler') == true) && <Animated.View style={{opacity: spoilerOpacity}}><Text style={[styles.title, {color: theme.title}]}> Exists</Text></Animated.View>}
-          </View>
-          
+          <Text style={[styles.title, {color: theme.title, paddingBottom: 0.02369668246 * height}]}>Solution</Text>
           <Text style={[styles.paragraph, {color: theme.white, paddingBottom: 0.03554502369 * height}]}>{message}</Text>          
           <Text style={[styles.title, {color: theme.white, width: 0.3317535545 * height, textAlign: 'center'}]}>{answer}</Text>
-
-          {(Settings.get('spoiler') == true) && <TouchableWithoutFeedback onPress={() => reveal()}>
-            <Animated.View style={{position: 'absolute', width: 0.3317535545 * height, height: 0.14218009478 * height, backgroundColor: '#3A3B4A', borderRadius: 0.01184834123 * height, transform: [{translateX: 0.03554502369 * height}, {translateY: 0.10663507109 * height}], opacity: spoilerOpacity}}>
-              <View style={styles.container}>
-                <Text style={[styles.paragraph, {color: theme.white}]}>Hold to reveal</Text>
-              </View>
-            </Animated.View>
-          </TouchableWithoutFeedback>}
 
           <TouchableHighlight
             style={[{width: 0.3317535545 * height, height: 0.07109004739 * height, backgroundColor: theme.primary, borderRadius: 0.01184834123 * height, marginTop: 0.03554502369 * height}]}
