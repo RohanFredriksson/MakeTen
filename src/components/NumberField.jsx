@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, Animated, Easing } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, Dimensions, Animated, Easing } from 'react-native';
 import { CodeField, Cursor, useBlurOnFulfill, useClearByFocusCell } from 'react-native-confirmation-code-field';
 import { getStyles } from './../styles/styles';
 import { getTheme } from './../styles/themes';
@@ -9,32 +9,35 @@ const CELL_COUNT = 4;
 const styles = getStyles();
 const theme = getTheme('dark');
 
-const fieldStyles = StyleSheet.create({
-  codeFiledRoot: {
-    marginTop: 20,
-    width: 280,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
-  cellRoot: {
-    width: 60,
-    height: 60,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: theme.surface,
-    borderRadius: 10,
-  },
-  cellText: {
-    color: '#000',
-    fontSize: 36,
-    textAlign: 'center',
-  },
-  focusCell: {
-    backgroundColor: theme.primary,
-  },
-});
-
 const NumberField = ({ callback }) => {
+
+  const width = Dimensions.get('window').width;
+  const height = Dimensions.get('window').height;
+
+  const fieldStyles = StyleSheet.create({
+    codeFiledRoot: {
+      marginTop: 0.02369668246 * height,
+      width: 0.3317535545 * height,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+    cellRoot: {
+      width: 0.07109004739 * height,
+      height: 0.07109004739 * height,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: theme.surface,
+      borderRadius: 0.01184834123 * height,
+    },
+    cellText: {
+      color: '#000',
+      fontSize: 0.04265402843 * height,
+      textAlign: 'center',
+    },
+    focusCell: {
+      backgroundColor: theme.primary,
+    },
+  });
 
   const [value, setValue] = useState('');
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({value, setValue});
@@ -84,9 +87,9 @@ const NumberField = ({ callback }) => {
           </View>
         )}
       />
-      <Animated.View style={{opacity: opacity}}><Text style={[styles.paragraph, {textAlign: 'center', color: theme.paragraph, paddingVertical: 40}]}>Please enter a four digit code</Text></Animated.View>
+      <Animated.View style={{opacity: opacity}}><Text style={[styles.paragraph, {textAlign: 'center', color: theme.paragraph, paddingVertical: 0.04739336492 * height}]}>Please enter a four digit code</Text></Animated.View>
       <TouchableHighlight
-        style={[{width: 280, height: 60, backgroundColor: theme.primary, borderRadius: 10}]}
+        style={[{width: 0.3317535545 * height, height: 0.07109004739 * height, backgroundColor: theme.primary, borderRadius: 0.01184834123 * height}]}
         underlayColor={theme.primary}
         onPress={enterValue}
       >
