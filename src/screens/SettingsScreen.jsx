@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, Dimensions, Settings } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, Dimensions, Switch, Settings } from 'react-native';
 import { getStyles } from './../styles/styles';
 import { getTheme } from './../styles/themes';
 
@@ -10,18 +10,38 @@ const SettingsScreen = (props) => {
 
   const width = Dimensions.get('window').width;
   const height = Dimensions.get('window').height;
+  const [enabled, setEnabled] = useState(false);
+  
+  const toggle = () => {
+    next = !enabled;
+    Settings.set({spoiler: next});
+    setEnabled(next);
+  }
+
+  useEffect(() => {
+    if (Settings.get('spoiler') == true) {setEnabled(true);}
+  }, []);
 
   return (
-    <View style={[styles.container, {backgroundColor: theme.background}]}>
-      <View style={{position: 'absolute', width: 0.3317535545 * height, transform: [{translateY: -0.21327014218 * height}]}}>
-        <View>
-          <Text style={[styles.title, {color: theme.title, paddingBottom: 0.02369668246 * height}]}>Settings</Text>
-          <Text style={[styles.paragraph, {color: theme.paragraph, paddingBottom: 0.03554502369 * height}]}>Enter a 4 digit train code or{'\n'}swipe to explore</Text>
+    <View style={[styles.container, {backgroundColor: '#3A3B4A'}]}>
+      <View style={{transform: [{translateY: -0.02369668246 * height}]}}>
+
+        <View style={{alignItems: 'flex-start', padding: 0.03554502369 * height, backgroundColor: theme.background, borderRadius: 0.02369668246 * height, marginBottom: 0.03554502369 * height}}>
+          <Text style={[styles.title, {color: theme.title, width: 0.3317535545 * height, marginBottom: 0.01777251184 * height}]}>Settings</Text>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={[styles.header, {color: theme.paragraph, paddingRight: 0.08293838862 * height}]}>Spoiler Guard</Text>
+            <Switch
+              value={enabled}
+              onValueChange={toggle}
+            />
+          </View>  
         </View>
-        <View>
-          <Text style={[styles.title, {color: theme.title, paddingBottom: 0.02369668246 * height}]}>About</Text>
-          <Text style={[styles.paragraph, {color: theme.paragraph, paddingBottom: 0.03554502369 * height}]}>Enter a 4 digit train code or{'\n'}swipe to explore</Text>
+
+        <View style={{alignItems: 'flex-start', padding: 0.03554502369 * height, backgroundColor: theme.background, borderRadius: 0.02369668246 * height, transform: [{translateY: -0 * height}]}}>
+          <Text style={[styles.title, {color: theme.title}]}>About</Text>
+          <Text style={[styles.paragraph, {color: theme.paragraph, width: 0.3317535545 * height}]}>{'\n'}The Sydney Train Make Ten Challenge has become a beloved pastime for commuters seeking a way to make their time on the train more enjoyable.{'\n\n'}Each carriage is assigned a unique four-digit number. Using all of the digits from this number, players aim to find equations that sum up to 10 using basic arithmetic operations.</Text>          
         </View>
+
       </View>
     </View>
   )

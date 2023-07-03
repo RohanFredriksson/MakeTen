@@ -37,7 +37,7 @@ const HomeScreen = ({navigation}) => {
         <CameraScreen navigation={navigation}/>
       </Screen>
 
-      <Screen id='settings' zIndex={2} left='code'>
+      <Screen id='settings' zIndex={0} left='code'>
         <SettingsScreen navigation={navigation}/>
       </Screen>
       

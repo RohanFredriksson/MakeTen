@@ -52,7 +52,7 @@ const AnswerScreen = ({navigation, route}) => {
           <Text style={[styles.title, {color: theme.white, width: 0.3317535545 * height, textAlign: 'center'}]}>{answer}</Text>
 
           {(Settings.get('spoiler') == true) && <TouchableWithoutFeedback onPress={() => reveal()}>
-            <Animated.View style={{position: 'absolute', width: 0.3317535545 * height, height: 0.14218009478 * height, backgroundColor: '#333333', borderRadius: 0.01184834123 * height, transform: [{translateX: 0.03554502369 * height}, {translateY: 0.10663507109 * height}], opacity: spoilerOpacity}}>
+            <Animated.View style={{position: 'absolute', width: 0.3317535545 * height, height: 0.14218009478 * height, backgroundColor: '#3A3B4A', borderRadius: 0.01184834123 * height, transform: [{translateX: 0.03554502369 * height}, {translateY: 0.10663507109 * height}], opacity: spoilerOpacity}}>
               <View style={styles.container}>
                 <Text style={[styles.paragraph, {color: theme.white}]}>Hold to reveal</Text>
               </View>
