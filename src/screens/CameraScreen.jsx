@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Text, View, Dimensions } from 'react-native';
-import { Camera, useCameraDevices } from 'react-native-vision-camera';
+import { Camera, useCameraDevice } from 'react-native-vision-camera';
 
 import TextRecognition from 'react-native-text-recognition';
 import { compute } from '../modules/compute'
@@ -14,8 +14,7 @@ const CameraScreen = (props) => {
 
   const width = Dimensions.get('window').width;
   const height = Dimensions.get('window').height;
-  const devices = useCameraDevices('wide-angle-camera');
-  const device = devices.back;
+  const device = useCameraDevice('back')
   const camera = useRef(null);
   const interval = useRef(null);
 
@@ -31,16 +30,17 @@ const CameraScreen = (props) => {
 
   const scan = async () => {
 
+    setMessage('' + device);
+
     const p = await Camera.getCameraPermissionStatus();
     if (lock) {return;}
     if (!props.active) {return;}
-    if (p !== 'authorized') {return;}
-    if (camera.current == null) {return;}
-    //if (device === undefined) {return;}
+    if (p !== 'granted') {return;}
+    if (device == null) {return;}
 
     setLock(true);
     setMessage('Scanning for a code');
-    const photo = await camera.current.takePhoto(/*{disableShutterSound: true}*/);
+    const photo = await camera.current.takePhoto({enableShutterSound: false});
     const text = "" + (await TextRecognition.recognize(photo.path));
     const code = getCode(text);
 
@@ -74,7 +74,7 @@ const CameraScreen = (props) => {
   const renderCamera = () => {
 
     // Show a loading screen, whilst we prompt the user for camera permission.
-    if (!props.active || permission !== 'authorized' || device == null) {
+    if (!props.active || permission !== 'granted' || device == null) {
       return (
         <Text style={[styles.header, {color: theme.white, position: 'absolute', bottom: 32, left: 32}]}>{message + '.'.repeat(count+1)}</Text>
       );

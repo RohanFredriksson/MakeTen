@@ -13,7 +13,7 @@ const HomeScreen = ({navigation}) => {
   const checkCameraPermission = async () => {
 
     const permission = await Camera.requestCameraPermission();
-    if (permission !== 'authorized') {
+    if (permission !== 'granted') {
   
       Alert.alert('Camera access has been disabled.', 'Please enable camera access in the settings to use the camera.', [
         {text: 'Settings', onPress: () => Linking.openSettings()},
