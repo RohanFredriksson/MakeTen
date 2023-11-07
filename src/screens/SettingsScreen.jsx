@@ -26,7 +26,7 @@ const SettingsScreen = (props) => {
     <View style={[styles.container, {backgroundColor: '#3A3B4A'}]}>
       <View style={{transform: [{translateY: -0.02369668246 * height}]}}>
 
-        <View style={{alignItems: 'flex-start', padding: 0.03554502369 * height, backgroundColor: theme.background, borderRadius: 0.02369668246 * height, marginBottom: 0.03554502369 * height}}>
+        <View style={[styles.shadow, {alignItems: 'flex-start', padding: 0.03554502369 * height, backgroundColor: theme.background, borderRadius: 0.02369668246 * height, marginBottom: 0.03554502369 * height}]}>
           <Text style={[styles.title, {color: theme.title, width: 0.3317535545 * height, marginBottom: 0.01777251184 * height}]}>Settings</Text>
           <View style={{flexDirection: 'row'}}>
             <Text style={[styles.header, {color: theme.paragraph, paddingRight: 0.08293838862 * height}]}>Spoiler Guard</Text>
@@ -37,7 +37,7 @@ const SettingsScreen = (props) => {
           </View>  
         </View>
 
-        <View style={{alignItems: 'flex-start', padding: 0.03554502369 * height, backgroundColor: theme.background, borderRadius: 0.02369668246 * height, transform: [{translateY: -0 * height}]}}>
+        <View style={[styles.shadow, {alignItems: 'flex-start', padding: 0.03554502369 * height, backgroundColor: theme.background, borderRadius: 0.02369668246 * height, transform: [{translateY: -0 * height}]}]}>
           <Text style={[styles.title, {color: theme.title}]}>About</Text>
           <Text style={[styles.paragraph, {color: theme.paragraph, width: 0.3317535545 * height}]}>{'\n'}The Sydney Train Make Ten Challenge has become a beloved pastime for commuters seeking a way to make their time on the train more enjoyable.{'\n\n'}Each carriage is assigned a unique four-digit number. Using all of the digits from this number, players aim to find equations that sum up to 10 using basic arithmetic operations.</Text>          
         </View>

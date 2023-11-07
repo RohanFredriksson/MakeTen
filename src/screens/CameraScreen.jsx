@@ -30,8 +30,6 @@ const CameraScreen = (props) => {
 
   const scan = async () => {
 
-    setMessage('' + device);
-
     const p = await Camera.getCameraPermissionStatus();
     if (lock) {return;}
     if (!props.active) {return;}

@@ -2,6 +2,9 @@ import React from 'react'
 import { View, Dimensions } from 'react-native'
 import { ScreenCornerRadius } from "react-native-screen-corner-radius"
 
+import { getStyles } from './../styles/styles';
+const styles = getStyles();
+
 export default class Screen extends React.Component {
 
   constructor(props) {
@@ -17,14 +20,15 @@ export default class Screen extends React.Component {
 
     return (
       <View 
-        style={{
+        style={[styles.shadow, {
           width: Dimensions.get('window').width, 
           height: Dimensions.get('window').height, 
-          overflow: 'hidden',
           borderRadius: ScreenCornerRadius,
-        }}
+        }]}
       >
-        {children}
+        <View style={{width: '100%', height: '100%', borderRadius: ScreenCornerRadius, overflow: 'hidden',}}>
+          {children}
+        </View>
       </View>
     );
 

@@ -11,6 +11,13 @@ function getStyles() {
       alignItems: 'center',
       justifyContent: 'center',
     },
+    shadow: {
+      shadowColor: 'black',
+      shadowOffset: { width: 2, height: 4 },
+      shadowOpacity: 0.3,
+      shadowRadius: 6,
+      elevation: 4
+    },
     title: {
       fontSize: 0.04265402843 * height,
       fontFamily: 'Inter-Regular',

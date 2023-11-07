@@ -20,7 +20,7 @@ const AnswerScreen = ({navigation, route}) => {
     if (Settings.get('spoiler') == true) {
       return (
         <View style={[styles.container, {backgroundColor: '#4CDA64'}]}>
-        <View style={{alignItems: 'flex-start', padding: 0.03554502369 * height, backgroundColor: theme.background, borderRadius: 0.02369668246 * height, transform: [{translateY: 0.01303317535 * height}]}}>
+        <View style={[styles.shadow, {alignItems: 'flex-start', padding: 0.03554502369 * height, backgroundColor: theme.background, borderRadius: 0.02369668246 * height, transform: [{translateY: 0.01303317535 * height}]}]}>
 
           <Text style={[styles.title, {color: theme.title, paddingBottom: 0.02369668246 * height}]}>Solution Exists</Text>
           <Text style={[styles.paragraph, {color: theme.white, paddingBottom: 0.03554502369 * height}]}>Turn off the spoiler guard in{'\n'}the settings to see the solution</Text>
@@ -54,7 +54,7 @@ const AnswerScreen = ({navigation, route}) => {
 
     return (
       <View style={[styles.container, {backgroundColor: '#4CDA64'}]}>
-        <View style={{alignItems: 'flex-start', padding: 0.03554502369 * height, backgroundColor: theme.background, borderRadius: 0.02369668246 * height, transform: [{translateY: -0.02962085308 * height}]}}>
+        <View style={[styles.shadow, {alignItems: 'flex-start', padding: 0.03554502369 * height, backgroundColor: theme.background, borderRadius: 0.02369668246 * height, transform: [{translateY: -0.02962085308 * height}]}]}>
 
           <Text style={[styles.title, {color: theme.title, paddingBottom: 0.02369668246 * height}]}>Solution</Text>
           <Text style={[styles.paragraph, {color: theme.white, paddingBottom: 0.03554502369 * height}]}>{message}</Text>          
@@ -76,7 +76,7 @@ const AnswerScreen = ({navigation, route}) => {
   else {
     return (
       <View style={[styles.container, {backgroundColor: '#FE0000'}]}>
-        <View style={{alignItems: 'flex-start', padding: 0.03554502369 * height, backgroundColor: theme.background, borderRadius: 0.02369668246 * height, transform: [{translateY: 0.01303317535 * height}]}}>
+        <View style={[styles.shadow, {alignItems: 'flex-start', padding: 0.03554502369 * height, backgroundColor: theme.background, borderRadius: 0.02369668246 * height, transform: [{translateY: 0.01303317535 * height}]}]}>
 
           <Text style={[styles.title, {color: theme.title, paddingBottom: 0.02369668246 * height}]}>No Solution</Text>
           <Text style={[styles.paragraph, {color: theme.white, paddingBottom: 0.03554502369 * height}]}>Sometimes the universe just{'\n'}doesn't want to play nice :(</Text>
