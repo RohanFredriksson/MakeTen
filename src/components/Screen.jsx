@@ -14,8 +14,7 @@ export default class Screen extends React.Component {
   render() {
 
     const children = React.Children.toArray(this.props.children).map((child) => {
-      if ('active' in this.props) {return React.cloneElement(child, {active: this.props.active});}
-      return React.cloneElement(child, {active: false});
+      return React.cloneElement(child, {active: ('active' in this.props ? this.props.active : false), left: this.props.left, right: this.props.right});
     });
 
     return (

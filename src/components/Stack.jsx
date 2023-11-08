@@ -28,6 +28,138 @@ export default class Stack extends React.Component {
 
   }
 
+  left = async () => {
+
+    // Alias some variables for readability
+    const current = this.state.current;
+    const dictionary = this.state.dictionary;
+
+    if (!('left' in current.props)) {return;}
+    if (this.state.lock) {return;}
+
+    const left = dictionary[current.props.left];
+    if (left && left.props.zIndex < current.props.zIndex) {
+
+      this.state.bottom = left;
+      this.state.left = null;
+      this.state.right = null;
+
+    } else {
+
+      this.state.bottom = null;
+      this.state.left = left;
+      this.state.right = null;
+
+    }
+
+    this.forceUpdate();
+
+    // If there is a check, run the check to see if we can navigate.
+    var success = true;
+    if ('leftCheck' in this.state.current.props) {
+      success = await this.state.current.props.leftCheck();
+    }
+
+    if (success) {
+
+      this.state.lock = true;
+      Animated.timing(this.state.translate, {
+        toValue: Dimensions.get('window').width,
+        duration: 300,
+        useNativeDriver: false,
+        easing: Easing.linear,
+      }).start(() => {
+
+        if (this.state.left != null) {this.state.current = this.state.left;} 
+        else {this.state.current = this.state.bottom;}
+
+        this.state.left = null;
+        this.state.right = null;
+        this.state.bottom = null;
+        this.state.lock = false;
+
+        this.state.translate.setValue(0);
+        this.forceUpdate();
+
+      });
+
+    }
+
+    else {
+      Animated.spring(this.state.translate, {
+        toValue: 0,
+        useNativeDriver: false
+      }).start();
+    }
+
+  }
+
+  right = async () => {
+    
+    // Alias some variables for readability
+    const current = this.state.current;
+    const dictionary = this.state.dictionary;
+
+    if (!('right' in current.props)) {return;}
+    if (this.state.lock) {return;}
+
+    const right = dictionary[current.props.right];
+    if (right && right.props.zIndex < current.props.zIndex) {
+
+      this.state.bottom = right;
+      this.state.left = null;
+      this.state.right = null;
+
+    } else {
+
+      this.state.bottom = null;
+      this.state.left = null;
+      this.state.right = right;
+      
+    }
+
+    this.forceUpdate();
+
+    // If there is a check, run the check to see if we can navigate.
+    var success = true;
+    if ('rightCheck' in this.state.current.props) {
+      success = await this.state.current.props.rightCheck();
+    }
+
+    if (success) {
+
+      this.state.lock = true;
+      Animated.timing(this.state.translate, {
+        toValue: -Dimensions.get('window').width,
+        duration: 300,
+        useNativeDriver: false,
+        easing: Easing.linear,
+      }).start(() => {
+
+        if (this.state.right != null) {this.state.current = this.state.right;} 
+        else {this.state.current = this.state.bottom;}
+
+        this.state.left = null;
+        this.state.right = null;
+        this.state.bottom = null;
+        this.state.lock = false;
+
+        this.state.translate.setValue(0);
+        this.forceUpdate();
+        
+      });
+
+    }
+
+    else {
+      Animated.spring(this.state.translate, {
+        toValue: 0,
+        useNativeDriver: false
+      }).start();
+    }
+
+  }
+
   onGestureEvent = (event) => {
 
     // Alias some variables for readability
@@ -193,10 +325,10 @@ export default class Stack extends React.Component {
 
   render() {
 
-    const left = (this.state.left != null ? React.cloneElement(this.state.left, {active: false}) : null);
-    const right = (this.state.right != null ? React.cloneElement(this.state.right, {active: false}) : null);
-    const bottom = (this.state.bottom != null ? React.cloneElement(this.state.bottom, {active: false}) : null);
-    const current = (this.state.current != null ? React.cloneElement(this.state.current, {active: true}) : null); 
+    const left = (this.state.left != null ? React.cloneElement(this.state.left, {active: false, left: this.left, right: this.right}) : null);
+    const right = (this.state.right != null ? React.cloneElement(this.state.right, {active: false, left: this.left, right: this.right}) : null);
+    const bottom = (this.state.bottom != null ? React.cloneElement(this.state.bottom, {active: false, left: this.left, right: this.right}) : null);
+    const current = (this.state.current != null ? React.cloneElement(this.state.current, {active: true, left: this.left, right: this.right}) : null); 
 
     if (this.state.left != null || this.state.right != null) {
 

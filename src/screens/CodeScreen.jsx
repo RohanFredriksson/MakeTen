@@ -18,10 +18,10 @@ const CodeScreen = (props) => {
     const answer = compute(code, 10);
     props.navigation.navigate('Answer', {answer: answer});
   }
-  
+
   return (
-    <View style={[styles.container, {backgroundColor: theme.background}]}>
-      <View style={{position: 'absolute', transform: [{translateY: -0.09478672985 * height}]}}>
+    <View style={[styles.container, {backgroundColor: '#3A3B4A'}]}>
+      <View style={[styles.shadow, {backgroundColor: theme.background, padding: 0.03554502369 * height, borderRadius: 0.02369668246 * height, position: 'absolute', transform: [{translateY: -0.09478672985 * height}]}]}>
         <Text style={[styles.title, {color: theme.title, paddingBottom: 0.02369668246 * height}]}>Make Ten</Text>
         <Text style={[styles.paragraph, {color: theme.paragraph, paddingBottom: 0.03554502369 * height}]}>Enter a 4 digit train code or{'\n'}swipe to explore</Text>
         <View style={[]}><NumberField callback={solve}/></View>
