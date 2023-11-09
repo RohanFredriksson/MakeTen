@@ -29,7 +29,7 @@ const HomeScreen = ({navigation}) => {
   return (
     <Stack>
 
-      <Screen id='code' zIndex={1} left='camera' leftCheck={checkCameraPermission} right='settings'>
+      <Screen id='code' zIndex={2} left='camera' leftCheck={checkCameraPermission} right='settings'>
         <CodeScreen navigation={navigation}/>
       </Screen>
 
@@ -37,7 +37,7 @@ const HomeScreen = ({navigation}) => {
         <CameraScreen navigation={navigation}/>
       </Screen>
 
-      <Screen id='settings' zIndex={0} left='code'>
+      <Screen id='settings' zIndex={1} left='code'>
         <SettingsScreen navigation={navigation}/>
       </Screen>
       
