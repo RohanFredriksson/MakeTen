@@ -28,7 +28,7 @@ export default class Stack extends React.Component {
 
   }
 
-  left = async () => {
+  left = async (to=null) => {
 
     // Alias some variables for readability
     const current = this.state.current;
@@ -56,9 +56,8 @@ export default class Stack extends React.Component {
 
     // If there is a check, run the check to see if we can navigate.
     var success = true;
-    if ('leftCheck' in this.state.current.props) {
-      success = await this.state.current.props.leftCheck();
-    }
+    const next = (this.state.left == null ? this.state.bottom : this.state.left);
+    if ('check' in next.props) {success = await next.props.check();}
 
     if (success) {
 
@@ -94,7 +93,7 @@ export default class Stack extends React.Component {
 
   }
 
-  right = async () => {
+  right = async (to=null) => {
     
     // Alias some variables for readability
     const current = this.state.current;
@@ -122,9 +121,8 @@ export default class Stack extends React.Component {
 
     // If there is a check, run the check to see if we can navigate.
     var success = true;
-    if ('rightCheck' in this.state.current.props) {
-      success = await this.state.current.props.rightCheck();
-    }
+    const next = (this.state.right == null ? this.state.bottom : this.state.right);
+    if ('check' in next.props) {success = await next.props.check();}
 
     if (success) {
 
@@ -228,8 +226,9 @@ export default class Stack extends React.Component {
       if (success) {
   
         // If there is a check, run the check to see if we can navigate.
-        if ('leftCheck' in this.state.current.props) {
-          success = await this.state.current.props.leftCheck();
+        const next = (this.state.left == null ? this.state.bottom : this.state.left);
+        if ('check' in next.props) {
+          success = await next.props.check();
         }
 
         if (success) {
@@ -242,8 +241,7 @@ export default class Stack extends React.Component {
             easing: Easing.linear,
           }).start(() => {
 
-            if (this.state.left != null) {this.state.current = this.state.left;} 
-            else {this.state.current = this.state.bottom;}
+            this.state.current = next;
 
             this.state.left = null;
             this.state.right = null;
@@ -272,10 +270,11 @@ export default class Stack extends React.Component {
       if (success) {
 
         // If there is a check, run the check to see if we can navigate.
-        if ('rightCheck' in this.state.current.props) {
-          success = await this.state.current.props.rightCheck();
+        const next = (this.state.right == null ? this.state.bottom : this.state.left);
+        if ('check' in next.props) {
+          success = await next.props.check();
         }
-  
+
         if (success) {
 
           this.state.lock = true;
@@ -286,8 +285,7 @@ export default class Stack extends React.Component {
             easing: Easing.linear,
           }).start(() => {
 
-            if (this.state.right != null) {this.state.current = this.state.right;} 
-            else {this.state.current = this.state.bottom;}
+            this.state.current = next;
 
             this.state.left = null;
             this.state.right = null;

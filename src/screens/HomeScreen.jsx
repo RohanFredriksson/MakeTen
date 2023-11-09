@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert } from 'react-native';
+import { Alert, Linking } from 'react-native';
 import { Camera } from 'react-native-vision-camera';
 
 import { Screen } from '../components/Screen';
@@ -29,11 +29,11 @@ const HomeScreen = ({navigation}) => {
   return (
     <Stack>
 
-      <Screen id='code' zIndex={2} left='camera' leftCheck={checkCameraPermission} right='settings'>
+      <Screen id='code' zIndex={2} left='camera' right='settings'>
         <CodeScreen navigation={navigation}/>
       </Screen>
 
-      <Screen id='camera' zIndex={0} right='code'>
+      <Screen id='camera' zIndex={0} right='code' check={checkCameraPermission}>
         <CameraScreen navigation={navigation}/>
       </Screen>
 
