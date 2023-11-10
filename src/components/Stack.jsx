@@ -28,6 +28,31 @@ export default class Stack extends React.Component {
 
   }
 
+  change = (left, next, duration) => {
+    this.state.lock = true;
+    Animated.timing(this.state.translate, {
+      toValue: Dimensions.get('window').width * (left ? 1 : -1),
+      duration: duration,
+      useNativeDriver: false,
+      easing: Easing.linear,
+    }).start(() => {
+      this.state.current = next;
+      this.state.left = null;
+      this.state.right = null;
+      this.state.bottom = null;
+      this.state.lock = false;
+      this.state.translate.setValue(0);
+      this.forceUpdate();
+    });
+  }
+
+  bounce = () => {
+    Animated.spring(this.state.translate, {
+      toValue: 0,
+      useNativeDriver: false
+    }).start();
+  }
+
   move = async (left, to) => {
 
     if (this.state.lock) {return;}
@@ -38,7 +63,6 @@ export default class Stack extends React.Component {
 
     if (to != null && !(to in dictionary)) {return;}
     if (to != null) {next = dictionary[to];}
-    
     else if (left && !('left' in current.props)) {return;}
     else if (!left && !('right' in current.props)) {return;}
     else {next = dictionary[left ? current.props.left : current.props.right];}
@@ -48,35 +72,8 @@ export default class Stack extends React.Component {
     this.state.right  = null; if (!left && next.props.zIndex >= current.props.zIndex) {this.state.right = next;}
     this.forceUpdate();
 
-    if (!('check' in next.props) || await next.props.check()) {
-
-      this.state.lock = true;
-      Animated.timing(this.state.translate, {
-        toValue: Dimensions.get('window').width * (left ? 1 : -1),
-        duration: 300,
-        useNativeDriver: false,
-        easing: Easing.linear,
-      }).start(() => {
-        
-        this.state.current = next;
-        this.state.left = null;
-        this.state.right = null;
-        this.state.bottom = null;
-        
-        this.state.lock = false;
-        this.state.translate.setValue(0);
-        this.forceUpdate();
-
-      });
-
-    }
-
-    else {
-      Animated.spring(this.state.translate, {
-        toValue: 0,
-        useNativeDriver: false
-      }).start();
-    }
+    if (!('check' in next.props) || await next.props.check()) {this.change(left, next, 300);}
+    else {this.bounce();}
 
   }
 
@@ -102,41 +99,10 @@ export default class Stack extends React.Component {
     if (this.state.lock) {return;}
     
     // Set the next screen state.
-    if (translationX > 0) {
-
-      const left = dictionary[current.props.left];
-      if (left && left.props.zIndex < current.props.zIndex) {
-
-        this.state.bottom = left;
-        this.state.left = null;
-        this.state.right = null;
-
-      } else {
-
-        this.state.bottom = null;
-        this.state.left = left;
-        this.state.right = null;
-
-      }
-
-    } else {
-
-      const right = dictionary[current.props.right];
-      if (right && right.props.zIndex < current.props.zIndex) {
-
-        this.state.bottom = right;
-        this.state.left = null;
-        this.state.right = null;
-
-      } else {
-
-        this.state.bottom = null;
-        this.state.left = null;
-        this.state.right = right;
-        
-      }
-
-    }
+    const next = (translationX > 0 ? dictionary[current.props.left] : dictionary[current.props.right]);
+    this.state.bottom = null; if (next.props.zIndex < current.props.zIndex) {this.state.bottom = next;}
+    this.state.left = null; if (translationX > 0 && next.props.zIndex >= current.props.zIndex) {this.state.left = next;}
+    this.state.right = null; if (translationX < 0 && next.props.zIndex >= current.props.zIndex) {this.state.right = next;}
   
     // Move the screen.
     this.forceUpdate();
@@ -149,97 +115,24 @@ export default class Stack extends React.Component {
     // If the user ends the gesture, determine if we can move.
     if (event.nativeEvent.state === State.END) {
 
-      // If a gesture resolution is already being executed, return.
       if (this.state.lock) {return;}
-      
-      // If the user moved far enough to the left.
-      var success = event.nativeEvent.translationX > Dimensions.get('window').width / 4 && ('left' in this.state.current.props);
-      if (success) {
-  
-        // If there is a check, run the check to see if we can navigate.
+
+      if (event.nativeEvent.translationX > Dimensions.get('window').width / 4 && ('left' in this.state.current.props)) {
         const next = (this.state.left == null ? this.state.bottom : this.state.left);
-        if (!('check' in next.props) || await next.props.check()) {
-
-          this.state.lock = true;
-          Animated.timing(this.state.translate, {
-            toValue: Dimensions.get('window').width,
-            duration: 200,
-            useNativeDriver: false,
-            easing: Easing.linear,
-          }).start(() => {
-
-            this.state.current = next;
-
-            this.state.left = null;
-            this.state.right = null;
-            this.state.bottom = null;
-            this.state.lock = false;
-
-            this.state.translate.setValue(0);
-            this.forceUpdate();
-
-          });
-
-        }
-
-        else {
-          Animated.spring(this.state.translate, {
-            toValue: 0,
-            useNativeDriver: false
-          }).start();
-        }
-
+        if (!('check' in next.props) || await next.props.check()) {this.change(true, next, 200);}
+        else {this.bounce();}
         return;
       } 
 
-      // If the user moved far enough to the right.
-      success = event.nativeEvent.translationX < -Dimensions.get('window').width / 4 && ('right' in this.state.current.props);
-      if (success) {
-
-        // If there is a check, run the check to see if we can navigate.
+      if (event.nativeEvent.translationX < -Dimensions.get('window').width / 4 && ('right' in this.state.current.props)) {
         const next = (this.state.right == null ? this.state.bottom : this.state.right);
-        if (!('check' in next.props) || await next.props.check()) {
-
-          this.state.lock = true;
-          Animated.timing(this.state.translate, {
-            toValue: -Dimensions.get('window').width,
-            duration: 200,
-            useNativeDriver: false,
-            easing: Easing.linear,
-          }).start(() => {
-
-            this.state.current = next;
-
-            this.state.left = null;
-            this.state.right = null;
-            this.state.bottom = null;
-            this.state.lock = false;
-
-            this.state.translate.setValue(0);
-            this.forceUpdate();
-            
-          });
-
-        }
-
-        else {
-          Animated.spring(this.state.translate, {
-            toValue: 0,
-            useNativeDriver: false
-          }).start();
-        }
-
+        if (!('check' in next.props) || await next.props.check()) {this.change(false, next, 200);}
+        else {this.bounce();}
         return;
       } 
       
-      // Spring the screen back to its default location.
-      if (!success) {
-        Animated.spring(this.state.translate, {
-          toValue: 0,
-          useNativeDriver: false
-        }).start();
-      }
-
+      this.bounce();
+      
     }
   
   }
