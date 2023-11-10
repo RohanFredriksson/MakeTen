@@ -28,55 +28,42 @@ export default class Stack extends React.Component {
 
   }
 
-  left = async (to=null) => {
+  move = async (left, to) => {
 
-    // Alias some variables for readability
+    if (this.state.lock) {return;}
+
+    var next;
     const current = this.state.current;
     const dictionary = this.state.dictionary;
 
-    if (!('left' in current.props)) {return;}
-    if (this.state.lock) {return;}
+    if (to != null && !(to in dictionary)) {return;}
+    if (to != null) {next = dictionary[to];}
+    
+    else if (left && !('left' in current.props)) {return;}
+    else if (!left && !('right' in current.props)) {return;}
+    else {next = dictionary[left ? current.props.left : current.props.right];}
 
-    const left = dictionary[current.props.left];
-    if (left && left.props.zIndex < current.props.zIndex) {
-
-      this.state.bottom = left;
-      this.state.left = null;
-      this.state.right = null;
-
-    } else {
-
-      this.state.bottom = null;
-      this.state.left = left;
-      this.state.right = null;
-
-    }
-
+    this.state.bottom = null; if (next.props.zIndex < current.props.zIndex) {this.state.bottom = next;}
+    this.state.left   = null; if (left && next.props.zIndex >= current.props.zIndex) {this.state.left = next;} 
+    this.state.right  = null; if (!left && next.props.zIndex >= current.props.zIndex) {this.state.right = next;}
     this.forceUpdate();
 
-    // If there is a check, run the check to see if we can navigate.
-    var success = true;
-    const next = (this.state.left == null ? this.state.bottom : this.state.left);
-    if ('check' in next.props) {success = await next.props.check();}
-
-    if (success) {
+    if (!('check' in next.props) || await next.props.check()) {
 
       this.state.lock = true;
       Animated.timing(this.state.translate, {
-        toValue: Dimensions.get('window').width,
+        toValue: Dimensions.get('window').width * (left ? 1 : -1),
         duration: 300,
         useNativeDriver: false,
         easing: Easing.linear,
       }).start(() => {
-
-        if (this.state.left != null) {this.state.current = this.state.left;} 
-        else {this.state.current = this.state.bottom;}
-
+        
+        this.state.current = next;
         this.state.left = null;
         this.state.right = null;
         this.state.bottom = null;
+        
         this.state.lock = false;
-
         this.state.translate.setValue(0);
         this.forceUpdate();
 
@@ -93,69 +80,12 @@ export default class Stack extends React.Component {
 
   }
 
+  left = async (to=null) => {
+    this.move(true, to);
+  }
+
   right = async (to=null) => {
-    
-    // Alias some variables for readability
-    const current = this.state.current;
-    const dictionary = this.state.dictionary;
-
-    if (!('right' in current.props)) {return;}
-    if (this.state.lock) {return;}
-
-    const right = dictionary[current.props.right];
-    if (right && right.props.zIndex < current.props.zIndex) {
-
-      this.state.bottom = right;
-      this.state.left = null;
-      this.state.right = null;
-
-    } else {
-
-      this.state.bottom = null;
-      this.state.left = null;
-      this.state.right = right;
-      
-    }
-
-    this.forceUpdate();
-
-    // If there is a check, run the check to see if we can navigate.
-    var success = true;
-    const next = (this.state.right == null ? this.state.bottom : this.state.right);
-    if ('check' in next.props) {success = await next.props.check();}
-
-    if (success) {
-
-      this.state.lock = true;
-      Animated.timing(this.state.translate, {
-        toValue: -Dimensions.get('window').width,
-        duration: 300,
-        useNativeDriver: false,
-        easing: Easing.linear,
-      }).start(() => {
-
-        if (this.state.right != null) {this.state.current = this.state.right;} 
-        else {this.state.current = this.state.bottom;}
-
-        this.state.left = null;
-        this.state.right = null;
-        this.state.bottom = null;
-        this.state.lock = false;
-
-        this.state.translate.setValue(0);
-        this.forceUpdate();
-        
-      });
-
-    }
-
-    else {
-      Animated.spring(this.state.translate, {
-        toValue: 0,
-        useNativeDriver: false
-      }).start();
-    }
-
+    this.move(false, to);
   }
 
   onGestureEvent = (event) => {
@@ -168,6 +98,7 @@ export default class Stack extends React.Component {
     const { translationX } = event.nativeEvent;
     if (!('left'  in current.props) && translationX > 0) {return;}
     if (!('right' in current.props) && translationX < 0) {return;}
+    if (translationX == 0) {return;}
     if (this.state.lock) {return;}
     
     // Set the next screen state.
@@ -227,11 +158,7 @@ export default class Stack extends React.Component {
   
         // If there is a check, run the check to see if we can navigate.
         const next = (this.state.left == null ? this.state.bottom : this.state.left);
-        if ('check' in next.props) {
-          success = await next.props.check();
-        }
-
-        if (success) {
+        if (!('check' in next.props) || await next.props.check()) {
 
           this.state.lock = true;
           Animated.timing(this.state.translate, {
@@ -270,12 +197,8 @@ export default class Stack extends React.Component {
       if (success) {
 
         // If there is a check, run the check to see if we can navigate.
-        const next = (this.state.right == null ? this.state.bottom : this.state.left);
-        if ('check' in next.props) {
-          success = await next.props.check();
-        }
-
-        if (success) {
+        const next = (this.state.right == null ? this.state.bottom : this.state.right);
+        if (!('check' in next.props) || await next.props.check()) {
 
           this.state.lock = true;
           Animated.timing(this.state.translate, {

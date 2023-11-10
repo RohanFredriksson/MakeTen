@@ -34,11 +34,11 @@ const CodeScreen = (props) => {
 
       <View style={[styles.shadow, {backgroundColor: theme.background, paddingVertical: 0.017772511845 * height, paddingHorizontal: 0.03554502369 * height, borderRadius: 0.02369668246 * height, position: 'absolute', transform: [{translateY: 4.125 * 0.09478672985 * height}]}]}>
         <View style={[styles.container, {flexDirection: 'row', width: 0.3317535545 * height}]}>
-          <TouchableWithoutFeedback onPress={props.left}><CameraIcon   width={0.04739336492 * height} height={0.04739336492 * height} style={{fill: theme.paragraph}}/></TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={() => {props.left();}}><CameraIcon   width={0.04739336492 * height} height={0.04739336492 * height} style={{fill: theme.paragraph}}/></TouchableWithoutFeedback>
           <View style={{backgroundColor: theme.paragraph, width: 2, height: 0.04739336492 * height, marginHorizontal: 0.02369668246 * height}}/>
           <HomeIcon     width={0.04739336492 * height} height={0.04739336492 * height} style={{fill: theme.title}}/>
           <View style={{backgroundColor: theme.paragraph, width: 2, height: 0.04739336492 * height, marginHorizontal: 0.02369668246 * height}}/>
-          <TouchableWithoutFeedback onPress={props.right}><SettingsIcon width={0.04739336492 * height} height={0.04739336492 * height} style={{fill: theme.paragraph}}/></TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={() => {props.right();}}><SettingsIcon width={0.04739336492 * height} height={0.04739336492 * height} style={{fill: theme.paragraph}}/></TouchableWithoutFeedback>
         </View>
       </View>
 
