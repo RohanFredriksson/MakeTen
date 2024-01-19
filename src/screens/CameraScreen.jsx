@@ -10,6 +10,28 @@ import { getTheme } from './../styles/themes';
 const styles = getStyles();
 const theme = getTheme('dark');
 
+const CameraBorder = () => {
+
+  const width = Dimensions.get('window').width;
+  const height = Dimensions.get('window').height;
+
+  return (
+    <View style={{position: 'absolute', top: 0.5 * (height - width), left: 0.1 * width}}>
+      <View style={{position: 'relative', width: 0.8 * width, height: 0.8 * width}}>
+        <View style={{position: 'absolute', top:    -5, left:  -5, backgroundColor: '#FFFFFF', width: 10, height: 0.2 * width}}></View>
+        <View style={{position: 'absolute', top:    -5, left:  -5, backgroundColor: '#FFFFFF', width: 0.2 * width, height: 10}}></View>
+        <View style={{position: 'absolute', top:    -5, right: -5, backgroundColor: '#FFFFFF', width: 10, height: 0.2 * width}}></View>
+        <View style={{position: 'absolute', top:    -5, right: -5, backgroundColor: '#FFFFFF', width: 0.2 * width, height: 10}}></View>
+        <View style={{position: 'absolute', bottom: -5, left:  -5, backgroundColor: '#FFFFFF', width: 10, height: 0.2 * width}}></View>
+        <View style={{position: 'absolute', bottom: -5, left:  -5, backgroundColor: '#FFFFFF', width: 0.2 * width, height: 10}}></View>
+        <View style={{position: 'absolute', bottom: -5, right: -5, backgroundColor: '#FFFFFF', width: 10, height: 0.2 * width}}></View>
+        <View style={{position: 'absolute', bottom: -5, right: -5, backgroundColor: '#FFFFFF', width: 0.2 * width, height: 10}}></View>
+      </View>
+    </View>
+  )
+
+}
+
 const CameraScreen = (props) => {
 
   const width = Dimensions.get('window').width;
@@ -74,12 +96,16 @@ const CameraScreen = (props) => {
     // Show a loading screen, whilst we prompt the user for camera permission.
     if (!props.active || permission !== 'granted' || device == null) {
       return (
-        <Text style={[styles.header, {color: theme.white, position: 'absolute', bottom: 32, left: 32}]}>{message + '.'.repeat(count+1)}</Text>
+        <View style={{width: width, height: height, flex: 1}}>
+          <CameraBorder/>
+          <Text style={[styles.header, {color: theme.white, position: 'absolute', bottom: 32, left: 32}]}>{message + '.'.repeat(count+1)}</Text>
+        </View>
       );
     }
 
     return (
       <Camera style={{width: width, height: height, flex: 1}} device={device} ref={camera} isActive={true} photo={true} enableZoomGesture={true}>
+        <CameraBorder/>
         <Text style={[styles.header, {color: theme.white, position: 'absolute', bottom: 32, left: 32}]}>{message + '.'.repeat(count+1)}</Text>
       </Camera>
     );
