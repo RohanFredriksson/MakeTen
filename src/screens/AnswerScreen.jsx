@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, TouchableHighlight, Dimensions, Settings } from 'react-native';
+import { View, Text, TouchableHighlight, Dimensions } from 'react-native';
+import { getSpoilerStatus } from '../modules/settings';
 
 import { getStyles } from './../styles/styles';
 import { getTheme } from './../styles/themes';
@@ -9,7 +10,7 @@ const theme = getTheme('dark');
 
 const AnswerScreen = ({navigation, route}) => {
 
-  const width = Dimensions.get('window').width;
+  //const width = Dimensions.get('window').width;
   const height = Dimensions.get('window').height;
 
   const answer = route.params.answer;
@@ -17,7 +18,7 @@ const AnswerScreen = ({navigation, route}) => {
 
   if (success) {
 
-    if (Settings.get('spoiler') == true) {
+    if (getSpoilerStatus()) {
       return (
         <View style={[styles.container, {backgroundColor: '#4CDA64'}]}>
         <View style={[styles.shadow, {alignItems: 'flex-start', padding: 0.03554502369 * height, backgroundColor: theme.background, borderRadius: 0.02369668246 * height, transform: [{translateY: 0.01303317535 * height}]}]}>

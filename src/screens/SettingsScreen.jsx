@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, Dimensions, Switch, Settings, TouchableWithoutFeedback } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Dimensions, Switch, TouchableWithoutFeedback, Platform } from 'react-native';
+import { getSpoilerStatus, setSpoilerStatus } from '../modules/settings';
+
 import { getStyles } from './../styles/styles';
 import { getTheme } from './../styles/themes';
 
@@ -14,17 +16,13 @@ const SettingsScreen = (props) => {
 
   const width = Dimensions.get('window').width;
   const height = Dimensions.get('window').height;
-  const [enabled, setEnabled] = useState(false);
+  const [enabled, setEnabled] = useState(getSpoilerStatus());
   
   const toggle = () => {
     next = !enabled;
-    Settings.set({spoiler: next});
+    setSpoilerStatus(next);
     setEnabled(next);
   }
-
-  useEffect(() => {
-    if (Settings.get('spoiler') == true) {setEnabled(true);}
-  }, []);
 
   return (
     <View style={[styles.container, {backgroundColor: '#3A3B4A'}]}>
@@ -34,10 +32,13 @@ const SettingsScreen = (props) => {
           <Text style={[styles.title, {color: theme.title, width: 0.3317535545 * height, marginBottom: 0.01777251184 * height}]}>Settings</Text>
           <View style={{flexDirection: 'row'}}>
             <Text style={[styles.header, {color: theme.paragraph, paddingRight: 0.08293838862 * height}]}>Spoiler Guard</Text>
-            <Switch
-              value={enabled}
-              onValueChange={toggle}
-            />
+            
+            {Platform.OS === 'ios' && <Switch value={enabled} onValueChange={toggle}/>}
+
+            {Platform.OS !== 'ios' && <TouchableWithoutFeedback onPress={toggle}> 
+              <Switch value={enabled} onValueChange={()=>{}}/> 
+            </TouchableWithoutFeedback>}
+
           </View>  
         </View>
 
