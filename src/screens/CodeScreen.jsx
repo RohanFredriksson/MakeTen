@@ -15,8 +15,6 @@ import SettingsIcon from './../assets/icons/settings.svg';
 
 const CodeScreen = (props) => {
 
-  console.log(CameraIcon);
-
   const width = Dimensions.get('window').width;
   const height = Dimensions.get('window').height;
 

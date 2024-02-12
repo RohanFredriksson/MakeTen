@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Linking } from 'react-native';
+import { Alert, Linking, Platform, PermissionsAndroid } from 'react-native';
 import { Camera } from 'react-native-vision-camera';
 
 import { Screen } from '../components/Screen';
@@ -15,12 +15,28 @@ const HomeScreen = ({navigation}) => {
     const permission = await Camera.requestCameraPermission();
     if (permission !== 'granted') {
   
-      Alert.alert('Camera access has been disabled.', 'Please enable camera access in the settings to use the camera.', [
-        {text: 'Settings', onPress: () => Linking.openSettings()},
-        {text: 'Return', onPress: () => {}, style: 'cancel',}
-      ]);
-  
-      return false;
+      if (Platform.OS === 'ios') {
+
+        Alert.alert('Camera access has been disabled.', 'Please enable camera access in the settings to use the camera.', [
+          {text: 'Settings', onPress: () => Linking.openSettings()},
+          {text: 'Return', onPress: () => {}, style: 'cancel',}
+        ]);
+    
+        return false;
+
+      }
+
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: 'Camera Permission',
+          message: 'Please enable camera access to use the camera.',
+          buttonPositive: 'OK',
+        },
+      );
+
+      return granted;
+      
     }
 
     return true;
