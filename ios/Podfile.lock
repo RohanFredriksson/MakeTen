@@ -1216,8 +1216,6 @@ PODS:
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
-  - RNSVG (14.1.0):
-    - React-Core
   - SocketRocket (0.6.1)
   - VisionCamera (3.8.2):
     - React
@@ -1303,7 +1301,6 @@ DEPENDENCIES:
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - "RNMLKitTextRecognition (from `../node_modules/@react-native-ml-kit/text-recognition`)"
   - RNScreens (from `../node_modules/react-native-screens`)
-  - RNSVG (from `../node_modules/react-native-svg`)
   - VisionCamera (from `../node_modules/react-native-vision-camera`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -1446,8 +1443,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-ml-kit/text-recognition"
   RNScreens:
     :path: "../node_modules/react-native-screens"
-  RNSVG:
-    :path: "../node_modules/react-native-svg"
   VisionCamera:
     :path: "../node_modules/react-native-vision-camera"
   Yoga:
@@ -1535,7 +1530,6 @@ SPEC CHECKSUMS:
   RNGestureHandler: deda62b8339496ba721a45e0f3e2d7a319932cee
   RNMLKitTextRecognition: 797751bdd11e118066915c254fc612993cceb950
   RNScreens: b582cb834dc4133307562e930e8fa914b8c04ef2
-  RNSVG: ba3e7232f45e34b7b47e74472386cf4e1a676d0a
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   VisionCamera: 4b98b273902ac18491bb68481b6601f1f0da0f2d
   Yoga: 1b901a6d6eeba4e8a2e8f308f708691cdb5db312

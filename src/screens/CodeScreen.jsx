@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Dimensions, TouchableWithoutFeedback } from 'react-native';
+import { Image, View, Text, Dimensions, TouchableWithoutFeedback } from 'react-native';
 
 import { NumberField } from '../components/NumberField';
 import { compute } from './../modules/compute';
@@ -9,9 +9,9 @@ import { getTheme } from './../styles/themes';
 const styles = getStyles();
 const theme = getTheme('dark');
 
-import CameraIcon from './../assets/icons/camera.svg';
-import HomeIcon from './../assets/icons/house-chimney.svg';
-import SettingsIcon from './../assets/icons/settings.svg';
+//import CameraIcon from './../assets/icons/camera.svg';
+//import HomeIcon from './../assets/icons/house-chimney.svg';
+//import SettingsIcon from './../assets/icons/settings.svg';
 
 const CodeScreen = (props) => {
 
@@ -34,7 +34,11 @@ const CodeScreen = (props) => {
 
       <View style={[styles.shadow, {backgroundColor: theme.background, paddingVertical: 0.017772511845 * height, paddingHorizontal: 0.03554502369 * height, borderRadius: 0.02369668246 * height, position: 'absolute', transform: [{translateY: 4.125 * 0.09478672985 * height}]}]}>
         <View style={[styles.container, {flexDirection: 'row', width: 0.3317535545 * height}]}>
-          
+          <TouchableWithoutFeedback onPress={() => {props.left();}}><Image source={require('./../assets/icons/camera.png')} width={0.04739336492 * height} height={0.04739336492 * height} style={{width: 0.04739336492 * height, height: 0.04739336492 * height, paddingHorizontal: 0.02369668246 * height, tintColor: theme.paragraph}}/></TouchableWithoutFeedback>
+          <View style={{marginHorizontal: 0.02369668246 * height, backgroundColor: theme.paragraph, width: 2, height: 0.04739336492 * height}}/>
+          <Image source={require('./../assets/icons/house-chimney.png')} width={0.04739336492 * height} height={0.04739336492 * height} style={{width: 0.04739336492 * height, height: 0.04739336492 * height, paddingHorizontal: 0.02369668246 * height, tintColor: theme.title}}/>
+          <View style={{marginHorizontal: 0.02369668246 * height, backgroundColor: theme.paragraph, width: 2, height: 0.04739336492 * height}}/>
+          <TouchableWithoutFeedback onPress={() => {props.right();}}><Image source={require('./../assets/icons/settings.png')} width={0.04739336492 * height} height={0.04739336492 * height} style={{width: 0.04739336492 * height, height: 0.04739336492 * height, paddingHorizontal: 0.02369668246 * height, tintColor: theme.paragraph}}/></TouchableWithoutFeedback>
         </View>
       </View>
 
@@ -44,11 +48,7 @@ const CodeScreen = (props) => {
 }
 
 /*
-<TouchableWithoutFeedback onPress={() => {props.left();}}><CameraIcon width={0.04739336492 * height} height={0.04739336492 * height} style={{paddingHorizontal: 0.02369668246 * height, fill: theme.paragraph}}/></TouchableWithoutFeedback>
-          <View style={{marginHorizontal: 0.02369668246 * height, backgroundColor: theme.paragraph, width: 2, height: 0.04739336492 * height}}/>
-          <HomeIcon width={0.04739336492 * height} height={0.04739336492 * height} style={{paddingHorizontal: 0.02369668246 * height, fill: theme.title}}/>
-          <View style={{marginHorizontal: 0.02369668246 * height, backgroundColor: theme.paragraph, width: 2, height: 0.04739336492 * height}}/>
-          <TouchableWithoutFeedback onPress={() => {props.right();}}><SettingsIcon width={0.04739336492 * height} height={0.04739336492 * height} style={{paddingHorizontal: 0.02369668246 * height, fill: theme.paragraph}}/></TouchableWithoutFeedback>
+
 */
 
 export {CodeScreen};

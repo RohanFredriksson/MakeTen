@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Animated, Easing, TouchableWithoutFeedback, Dimensions, Platform } from 'react-native';
+import { Image, View, Animated, Easing, TouchableWithoutFeedback, Dimensions } from 'react-native';
 import { Camera, useCameraDevice } from 'react-native-vision-camera';
 import TextRecognition from '@react-native-ml-kit/text-recognition';
 
@@ -9,10 +9,6 @@ import { getTheme } from './../styles/themes';
 
 const styles = getStyles();
 const theme = getTheme('dark');
-
-import CameraIcon from './../assets/icons/camera.svg';
-import HomeIcon from './../assets/icons/house-chimney.svg';
-import SettingsIcon from './../assets/icons/settings.svg';
 
 const CameraScreen = (props) => {
 
@@ -39,7 +35,7 @@ const CameraScreen = (props) => {
   }
 
   const uri = (path) => {
-    if (Platform.OS === 'android') {return `file://${path}`;}
+    if (!path.startsWith('file://')) {return `file://${path}`;}
     return path;
   }
 
@@ -89,11 +85,11 @@ const CameraScreen = (props) => {
       <View style={{position: 'absolute', width: width, height: height, alignItems: 'center'}}>
         <View style={[styles.shadow, {backgroundColor: theme.background, paddingVertical: 0.017772511845 * height, paddingHorizontal: 0.03554502369 * height, borderRadius: 0.02369668246 * height, position: 'absolute', transform: [{translateY: 8.95 * 0.09478672985 * height}]}]}>
           <View style={[styles.container, {flexDirection: 'row', width: 0.3317535545 * height}]}>
-            <CameraIcon width={0.04739336492 * height} height={0.04739336492 * height} style={{paddingHorizontal: 0.02369668246 * height, fill: theme.title}}/>
+            <Image source={require('./../assets/icons/camera.png')} width={0.04739336492 * height} height={0.04739336492 * height} style={{width: 0.04739336492 * height, height: 0.04739336492 * height, paddingHorizontal: 0.02369668246 * height, tintColor: theme.title}}/>
             <View style={{marginHorizontal: 0.02369668246 * height, backgroundColor: theme.paragraph, width: 2, height: 0.04739336492 * height}}/>
-            <TouchableWithoutFeedback onPress={() => {props.right();}}><HomeIcon width={0.04739336492 * height} height={0.04739336492 * height} style={{paddingHorizontal: 0.02369668246 * height, fill: theme.paragraph}}/></TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={() => {props.right();}}><Image source={require('./../assets/icons/house-chimney.png')} width={0.04739336492 * height} height={0.04739336492 * height} style={{width: 0.04739336492 * height, height: 0.04739336492 * height, paddingHorizontal: 0.02369668246 * height, tintColor: theme.paragraph}}/></TouchableWithoutFeedback>
             <View style={{marginHorizontal: 0.02369668246 * height, backgroundColor: theme.paragraph, width: 2, height: 0.04739336492 * height}}/>
-            <TouchableWithoutFeedback onPress={() => {props.right("settings");}}><SettingsIcon width={0.04739336492 * height} height={0.04739336492 * height} style={{paddingHorizontal: 0.02369668246 * height, fill: theme.paragraph}}/></TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={() => {props.right("settings");}}><Image source={require('./../assets/icons/settings.png')} width={0.04739336492 * height} height={0.04739336492 * height} style={{width: 0.04739336492 * height, height: 0.04739336492 * height, paddingHorizontal: 0.02369668246 * height, tintColor: theme.paragraph}}/></TouchableWithoutFeedback>
           </View>
         </View>
       </View>
