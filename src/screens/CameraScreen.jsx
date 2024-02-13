@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Animated, Easing, TouchableWithoutFeedback, Dimensions } from 'react-native';
+import { View, Animated, Easing, TouchableWithoutFeedback, Dimensions, Platform } from 'react-native';
 import { Camera, useCameraDevice } from 'react-native-vision-camera';
+import TextRecognition from '@react-native-ml-kit/text-recognition';
 
-//import TextRecognition from 'react-native-text-recognition';
 import { compute } from '../modules/compute'
 import { getStyles } from './../styles/styles';
 import { getTheme } from './../styles/themes';
@@ -38,6 +38,11 @@ const CameraScreen = (props) => {
     setPermission(p);
   }
 
+  const uri = (path) => {
+    if (Platform.OS === 'android') {return `file://${path}`;}
+    return path;
+  }
+
   const scan = async () => {
 
     const p = await Camera.getCameraPermissionStatus();
@@ -47,15 +52,13 @@ const CameraScreen = (props) => {
     if (device === null) {return;}
 
     setLock(true);
-    let photo = null; try {photo = await camera.current.takePhoto({enableShutterSound: false});}
+    let photo = null; 
+    
+    try {photo = await camera.current.takePhoto({enableShutterSound: false});}
     catch {setLock(false); return;}
 
-    //const photo = await camera.current.takePhoto({enableShutterSound: false});
-    //const text = "" + (await TextRecognition.recognize(photo.path));
-    //const text = "D1234";
-
-    const text = "asdf";
-    const code = getCode(text);
+    const text = await TextRecognition.recognize(uri(photo.path));
+    const code = getCode(text.text);
 
     if (code === null) {
       setLock(false);
