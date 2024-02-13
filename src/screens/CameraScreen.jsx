@@ -47,9 +47,14 @@ const CameraScreen = (props) => {
     if (device === null) {return;}
 
     setLock(true);
-    const photo = await camera.current.takePhoto({enableShutterSound: false});
+    let photo = null; try {photo = await camera.current.takePhoto({enableShutterSound: false});}
+    catch {setLock(false); return;}
+
+    //const photo = await camera.current.takePhoto({enableShutterSound: false});
     //const text = "" + (await TextRecognition.recognize(photo.path));
-    const text = "1234";
+    //const text = "D1234";
+
+    const text = "asdf";
     const code = getCode(text);
 
     if (code === null) {
@@ -144,10 +149,13 @@ const CameraScreen = (props) => {
   }
 
   return (
-    <Camera style={{width: width, height: height}} device={device} ref={camera} isActive={true} photo={true} enableZoomGesture={true}>
-      <CameraBorder/>
-      <CameraNavigation/>
-    </Camera>
+    <View style={{width: width, height: height}}>
+      <Camera style={{width: width, height: height}} device={device} ref={camera} isActive={true} photo={true} enableZoomGesture={true}/>
+      <View style={{top: -height, width: width, height: height}}>
+        <CameraBorder/>
+        <CameraNavigation/>
+      </View>
+    </View>
   );
 
 }
