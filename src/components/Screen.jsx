@@ -25,8 +25,8 @@ export default class Screen extends React.Component {
     // If we need to change the positioning of elements.
     let top = 0;
 
-    // Pixel Tablet has a bar at the bottom that blocks.
-    if (Platform.OS === 'android' && height / width  < 1.6) {top = -60;}
+    // Pixel Tablet has a bar at the bottom that blocks UI.
+    if (Platform.OS === 'android' && height / width < 1.1) {top = -60;}
 
     return (
       <View 
