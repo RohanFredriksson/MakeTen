@@ -1,4 +1,4 @@
-package com.maketen
+package com.rojuanodev.maketen
 
 import android.app.Application
 import com.facebook.react.PackageList

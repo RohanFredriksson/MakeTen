@@ -74,9 +74,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.maketen"
+    namespace "com.rojuanodev.maketen"
     defaultConfig {
-        applicationId "com.maketen"
+        applicationId "com.rojuanodev.maketen"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
