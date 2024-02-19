@@ -31,7 +31,7 @@ const AnswerScreen = ({navigation, route}) => {
             underlayColor={theme.primary}
             onPress={() => navigation.pop()}
           >
-            <View style={styles.container}><Text style={styles.paragraph}>Return</Text></View>
+            <View style={styles.container}><Text style={[styles.paragraph, {color: theme.black}]}>Return</Text></View>
           </TouchableHighlight>
 
         </View>
@@ -66,7 +66,7 @@ const AnswerScreen = ({navigation, route}) => {
             underlayColor={theme.primary}
             onPress={() => navigation.pop()}
           >
-            <View style={styles.container}><Text style={styles.paragraph}>Return</Text></View>
+            <View style={styles.container}><Text style={[styles.paragraph, {color: theme.black}]}>Return</Text></View>
           </TouchableHighlight>
 
         </View>
@@ -87,7 +87,7 @@ const AnswerScreen = ({navigation, route}) => {
             underlayColor={theme.primary}
             onPress={() => navigation.pop()}
           >
-            <View style={styles.container}><Text style={styles.paragraph}>Return</Text></View>
+            <View style={styles.container}><Text style={[styles.paragraph, {color: theme.black}]}>Return</Text></View>
           </TouchableHighlight>
 
         </View>

@@ -93,7 +93,7 @@ const NumberField = ({ callback }) => {
         underlayColor={theme.primary}
         onPress={enterValue}
       >
-        <View style={styles.container}><Text style={styles.paragraph}>Enter code</Text></View>
+        <View style={styles.container}><Text style={[styles.paragraph, {color: theme.black}]}>Enter code</Text></View>
       </TouchableHighlight>
     </View>
   );
