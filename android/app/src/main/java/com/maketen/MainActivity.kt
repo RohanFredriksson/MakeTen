@@ -1,4 +1,4 @@
-package com.rojuanodev.maketen
+package com.rohanfredriksson.maketen
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
