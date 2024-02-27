@@ -14,12 +14,12 @@ function compute(number) {
 
         if (numbers.length == 2) {
 
-            if (numbers[0] + numbers[1] == 10) {return `(${equations[0]} + ${equations[1]})`;}
-            if (numbers[0] - numbers[1] == 10) {return `(${equations[0]} - ${equations[1]})`;}
-            if (numbers[1] - numbers[0] == 10) {return `(${equations[1]} - ${equations[0]})`;}
-            if (numbers[0] * numbers[1] == 10) {return `(${equations[0]} * ${equations[1]})`;}
-            if (numbers[0] / numbers[1] == 10) {return `(${equations[0]} / ${equations[1]})`;}
-            if (numbers[1] / numbers[0] == 10) {return `(${equations[1]} / ${equations[0]})`;}
+            if (numbers[0] + numbers[1] == 10) {return `${equations[0]} + ${equations[1]}`;}
+            if (numbers[0] - numbers[1] == 10) {return `${equations[0]} - ${equations[1]}`;}
+            if (numbers[1] - numbers[0] == 10) {return `${equations[1]} - ${equations[0]}`;}
+            if (numbers[0] * numbers[1] == 10) {return `${equations[0]} * ${equations[1]}`;}
+            if (numbers[0] / numbers[1] == 10) {return `${equations[0]} / ${equations[1]}`;}
+            if (numbers[1] / numbers[0] == 10) {return `${equations[1]} / ${equations[0]}`;}
 
             return null;
 
