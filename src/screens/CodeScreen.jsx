@@ -19,7 +19,7 @@ const CodeScreen = (props) => {
   const height = Dimensions.get('window').height;
 
   const solve = (code) => {
-    const answer = compute(code, 10);
+    const answer = compute(code);
     props.navigation.navigate('Answer', {answer: answer});
   }
 

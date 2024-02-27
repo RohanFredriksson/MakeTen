@@ -72,7 +72,7 @@ const CameraScreen = (props) => {
     setLock(false);
     if (props.active !== true) {return;}
 
-    const answer = compute(code, 10);
+    const answer = compute(code);
     animation.setValue(0);
     props.navigation.navigate('Answer', {answer: answer});
     //setTimeout(props.right, 300);
